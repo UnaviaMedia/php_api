@@ -3,17 +3,17 @@ require_once("/home/cabox/workspace/constants.php");
 
 abstract class API {
     //The HTTP method this request was made in, either GET, POST, PUT or DELETE
-    protected $method = '';
+    protected $method = "";
 	//The Model requested in the URI. eg: /files
-    protected $endpoint = '';
+    protected $endpoint = "";
 	//An optional additional descriptor about the endpoint, used for things that can not be handled by the basic methods.
 	//	eg: /files/process
-    protected $verb = '';
+    protected $verb = "";
 	//Any additional URI components after the endpoint and verb have been removed, in our case, an integer ID for the resource. 
 	//	eg: /<endpoint>/<verb>/<arg0>/<arg1> or /<endpoint>/<arg0>
     protected $args = Array();
 	//Stores the input of the PUT request
-     protected $file = Null;
+     protected $file = null;
 
 	/**
 	 * @brief	Constructor for API
@@ -52,17 +52,17 @@ abstract class API {
 		switch($this->method) {
 			case 'DELETE':
 			case 'POST':
-				$this->request = $this->_cleanInputs($_POST);
+				$this->request = $this->cleanInputs($_POST);
 				break;
 			case 'GET':
-				$this->request = $this->_cleanInputs($_GET);
+				$this->request = $this->cleanInputs($_GET);
 				break;
 			case 'PUT':
-				$this->request = $this->_cleanInputs($_GET);
+				$this->request = $this->cleanInputs($_GET);
 				$this->file = file_get_contents("php://input");
 				break;
 			default:
-				$this->_response('Invalid Method', 405);
+				$this->response('Invalid Method', 405);
 				break;
 		}
     }
@@ -70,23 +70,23 @@ abstract class API {
 	//Determine if concrete class implements a method for the requested endpoint
 	public function processAPI() {
 		if (method_exists($this, $this->endpoint)) {
-			return $this->_response($this->{$this->endpoint}($this->args));
+			return $this->response($this->{$this->endpoint}($this->args));
 		}
-		return $this->_response("No Endpoint: $this->endpoint", 404);
+		return $this->response("No Endpoint: $this->endpoint", 404);
 	}
 
 	//Create the response headers and data
-	private function _response($data, $status = 200) {
-		header("HTTP/1.1 " . $status . " " . $this->_requestStatus($status));
+	private function response($data, $status = 200) {
+		header("HTTP/1.1 " . $status . " " . $this->requestStatus($status));
 		return json_encode($data);
 	}
 
 	//Clean the input from the request
-	private function _cleanInputs($data) {
+	private function cleanInputs($data) {
 		$clean_input = Array();
 		if (is_array($data)) {
 			foreach ($data as $k => $v) {
-				$clean_input[$k] = $this->_cleanInputs($v);
+				$clean_input[$k] = $this->cleanInputs($v);
 			}
 		} else {
 			$clean_input = trim(strip_tags($data));
@@ -95,13 +95,13 @@ abstract class API {
 	}
 
 	//Set the request status code
-	private function _requestStatus($code) {
+	private function requestStatus($code) {
 		$status = array(  
 			200 => 'OK',
 			404 => 'Not Found',   
 			405 => 'Method Not Allowed',
 			500 => 'Internal Server Error',
 		); 
-		return ($status[$code])?$status[$code]:$status[500]; 
+		return ($status[$code]) ? $status[$code] : $status[500]; 
 	}
 }
