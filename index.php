@@ -16,6 +16,11 @@ require_once(FRAGMENT_HEADER);
             </div>
         </div>
     </form>
+    <div class="column small-12 medium-6">
+        <pre class="" id="api-output">
+        
+        </pre>
+    </div>
 </div>
 <div class="row">
     <pre id="api_output" class="column small-12 medium-6">
