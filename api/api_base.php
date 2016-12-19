@@ -37,7 +37,7 @@ abstract class API {
 
 		//Detect the request method
 		$this->method = $_SERVER['REQUEST_METHOD'];
-		//Put and Delete methods are "hidden" in the Post method
+		//Put and Delete methods are "hidden" in the Post method (need to extract them)
 		if ($this->method == 'POST' && array_key_exists('HTTP_X_HTTP_METHOD', $_SERVER)) {
 			if ($_SERVER['HTTP_X_HTTP_METHOD'] == 'DELETE') {
 				$this->method = 'DELETE';
@@ -59,6 +59,7 @@ abstract class API {
 				break;
 			case 'PUT':
 				$this->request = $this->cleanInputs($_GET);
+				//PUT stores its data within PHP's "input" file
 				$this->file = file_get_contents("php://input");
 				break;
 			default:
@@ -89,6 +90,7 @@ abstract class API {
 				$clean_input[$k] = $this->cleanInputs($v);
 			}
 		} else {
+			//Remove tags from the data
 			$clean_input = trim(strip_tags($data));
 		}
 		return $clean_input;
