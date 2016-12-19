@@ -15,10 +15,12 @@ abstract class API {
 	//Stores the input of the PUT request
      protected $file = Null;
 
-    /**
-     * Constructor: __construct
-     * Allow for CORS, assemble and pre-process the data
-     */
+	/**
+	 * @brief	Constructor for API
+	 * Allow for CORS, assemble and pre-process the data
+	 *
+	 * @param	request		Request to generate an API for
+	 */
     public function __construct($request) {
 		//Set header information
 		header("Access-Control-Allow-Orgin: *");
@@ -73,11 +75,13 @@ abstract class API {
 		return $this->_response("No Endpoint: $this->endpoint", 404);
 	}
 
+	//Create the response headers and data
 	private function _response($data, $status = 200) {
 		header("HTTP/1.1 " . $status . " " . $this->_requestStatus($status));
 		return json_encode($data);
 	}
 
+	//Clean the input from the request
 	private function _cleanInputs($data) {
 		$clean_input = Array();
 		if (is_array($data)) {
@@ -90,6 +94,7 @@ abstract class API {
 		return $clean_input;
 	}
 
+	//Set the request status code
 	private function _requestStatus($code) {
 		$status = array(  
 			200 => 'OK',
