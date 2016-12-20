@@ -2,7 +2,7 @@
 
 require_once("/home/cabox/workspace/constants.php");
 require_once(DATABASE);
-require_once(MODELS . "/Coutinent.php");
+require_once(MODELS . "/Continent.php");
 
 //TODO: Use prepared statements
 
