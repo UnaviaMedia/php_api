@@ -7,6 +7,33 @@ class API_V1 extends API {
 		parent::__construct($request);
 	}
 	
+	protected function countries() {
+		require_once(DAL . "/dal_countries.php");
+		
+		switch($this->method) {
+			case "GET":
+				switch($this->verb) {
+					case "list":
+						$countries = readCountries();
+						return $countries;
+						break;
+					default:
+						$id = $_GET["id"];
+						readCountry($id);
+						break;
+				}
+				break;
+			case "POST":
+				break;
+			case "PUT":
+				break;
+			case "DELETE":
+				break;
+			default:
+				break;
+		}
+	}
+	
 	//Endpoint method
 	protected function example() {
 		switch($this->method) {
