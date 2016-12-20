@@ -1,12 +1,12 @@
 <?php
 
-require_once("/home/cabox/workspace/constants.php");
+/*require_once("/home/cabox/workspace/constants.php");
 require_once(DATABASE);
-require_once(MODELS . "/Continent.php");
+require_once(MODELS . "/Continent.php");*/
 
 //TODO: Use prepared statements
 
-function createContinent($continent) {
+/*public static function createContinent($continent) {
 	$conn = DB::connect();
 	$sql = sprintf("INSERT INTO continents VALUES (default, '%s');", $continent->getName());
 	
@@ -17,7 +17,7 @@ function createContinent($continent) {
 	return true;
 }
 
-function readContinent($id) {
+public static function readContinent($id) {
 	$conn = DB::connect();
 	$sql = "SELECT * FROM continents WHERE id=$id LIMIT 1;";
 	$result = $conn->query($sql);
@@ -27,7 +27,7 @@ function readContinent($id) {
 	return $continent;
 }
 
-function readContinents() {
+public static function readContinents() {
 	$conn = DB::connect();
 	$sql = "SELECT * FROM continents ORDER BY id;";
 	$result = $conn->query($sql);
@@ -42,7 +42,7 @@ function readContinents() {
 	return $continents;
 }
 
-function updateContinent($continent) {
+public static function updateContinent($continent) {
 	$conn = DB::connect();
 	$sql = "UPDATE continents SET name='{$continent->getName()}' WHERE id='{$continent->getId()}';";
 	
@@ -53,7 +53,7 @@ function updateContinent($continent) {
 	return true;
 }
 
-function deleteContinent($id) {
+public static function deleteContinent($id) {
 	$conn = DB::connect();
 	$sql = "DELETE FROM continents WHERE id='$id';";
 	
@@ -62,4 +62,4 @@ function deleteContinent($id) {
 	}
 	
 	return true;
-}
+}*/

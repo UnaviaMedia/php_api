@@ -72,7 +72,7 @@ abstract class API {
 	//Determine if concrete class implements a method for the requested endpoint
 	public function processAPI() {
 		//Get the api file that corresponds to the requested endpoint
-		$apiFile = API_BASE . "/{$this->version}/api_" . strtolower({$this->endpoint}) . ".php";
+		$apiFile = API_BASE . "/{$this->version}/api_" . strtolower($this->endpoint) . ".php";
 
 		//Determine if file exists for the requested endpoint
 		if ( file_exists($apiFile) ) {
