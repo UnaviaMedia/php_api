@@ -2,6 +2,7 @@
 <html>
 <head>
     <title>API &amp; AJAX Test</title>
+	<link rel="icon" href="/api_icon.ico" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/foundation/6.2.4/foundation.min.css" />
 	<link rel="stylesheet" href="/app.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.js"></script>
