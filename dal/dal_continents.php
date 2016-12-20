@@ -27,7 +27,7 @@ function readContinent($id) {
 	return $continent;
 }
 
-function readCountries() {
+function readContinents() {
 	$conn = DB::connect();
 	$sql = "SELECT * FROM continents ORDER BY id;";
 	$result = $conn->query($sql);
