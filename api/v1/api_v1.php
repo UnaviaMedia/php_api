@@ -28,7 +28,7 @@ class API_V1 extends API {
 		$this->User = $User;*/
 	}
 	
-	protected function countries() {
+	/*protected function countries() {
 		require_once(DAL . "/dal_countries.php");
 
 		switch($this->method) {
@@ -67,7 +67,7 @@ class API_V1 extends API {
 			default:
 				break;
 		}
-	}
+	}*/
 
 	//Endpoint method
 	protected function example() {

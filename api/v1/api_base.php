@@ -2,6 +2,7 @@
 require_once("/home/cabox/workspace/constants.php");
 
 abstract class API {
+	protected $version = "";
     //The HTTP method this request was made in, either GET, POST, PUT or DELETE
     protected $method = "";
 	//The Model requested in the URI. eg: /files
@@ -70,10 +71,22 @@ abstract class API {
 	
 	//Determine if concrete class implements a method for the requested endpoint
 	public function processAPI() {
-		if (method_exists($this, $this->endpoint)) {
+		//Get the api file that corresponds to the requested endpoint
+		$apiFile = API_BASE . "/{$this->version}/api_" . strtolower({$this->endpoint}) . ".php";
+
+		//Determine if file exists for the requested endpoint
+		if ( file_exists($apiFile) ) {
+			require_once($apiFile);
+			//TODO: Return correct response
+		}
+		
+		//TODO: Return correct response
+		return false;
+
+		/*if (method_exists($this, $this->endpoint)) {
 			return $this->response($this->{$this->endpoint}($this->args));
 		}
-		return $this->response("No Endpoint: $this->endpoint", 404);
+		return $this->response("No Endpoint: $this->endpoint", 404);*/
 	}
 
 	//Create the response headers and data
