@@ -2,7 +2,7 @@
 
 require_once("/home/cabox/workspace/constants.php");
 require_once(DATABASE);
-require_once(MODELS . "/country.php");
+require_once(MODELS . "/Country.php");
 
 public function createCountry($country) {
 	$sql = "INSERT INTO countries VALUES (default, {$country->name});";
