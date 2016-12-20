@@ -12,5 +12,5 @@ try {
     $API = new API_V1($_REQUEST['request'], $_SERVER['HTTP_ORIGIN']);
     echo $API->processAPI();
 } catch (Exception $e) {
-    echo json_encode(Array('error' => $e->getMessage()));
+    echo json_encode(Array('ERROR' => $e->getMessage()));
 }
