@@ -2,7 +2,7 @@
 require_once("/home/cabox/workspace/constants.php");
 require_once(UTILITIES);
 
-class Country {
+class Continent {
 	//TODO: Fix this (they need to be public currently)
 	protected $id;
 	protected $name;
@@ -44,6 +44,6 @@ class Country {
 		}
 		
 		//TODO: What is "$this"?
-		return new ValidationResponse(0, "SUCCESS: Country created", $this);
+		return new ValidationResponse(0, "SUCCESS: Continent created", $this);
 	}
 }
