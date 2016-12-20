@@ -1,6 +1,7 @@
 <?php
 require_once("/home/cabox/workspace/constants.php");
 require_once(API_BASE . "/v1/api_v1.php");
+require_once(UTILITIES);
 
 // Requests from the same server don't have a HTTP_ORIGIN header
 if (!array_key_exists('HTTP_ORIGIN', $_SERVER)) {

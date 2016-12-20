@@ -76,12 +76,12 @@ abstract class API {
 
 		//Determine if file exists for the requested endpoint
 		if ( file_exists($apiFile) ) {
-			require_once($apiFile);
-			//TODO: Return correct response
+			$response = require_once($apiFile);
+			return json_encode($response);
 		}
 		
 		//TODO: Return correct response
-		return false;
+		return new ApiResponse(1, "ERROR: No Endpoint: $this->endpoint");
 
 		/*if (method_exists($this, $this->endpoint)) {
 			return $this->response($this->{$this->endpoint}($this->args));
