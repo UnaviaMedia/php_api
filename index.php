@@ -24,26 +24,16 @@ require_once(FRAGMENT_HEADER);
     <div class="column small-12 medium-6">
         <h2 class="text-center">Use Cases</h2>
         <dl>
-            <dd>Retrieve a country</dd>
-            <dt>
-                <pre>GET - /api/v1/countries/23</pre>
-            </dt>
-            <dd>Retrieve all countries</dd>
-            <dt>
-                <pre>GET - /api/v1/countries/list</pre>
-            </dt>
-            <dd>Add a new country</dd>
-            <dt>
-                <pre>POST - /api/v1/countries { name: "test" }</pre>
-            </dt>
-            <dd>Update a country</dd>
-            <dt>
-                <pre>PUT - /api/v1/countries { name: "another" }</pre>
-            </dt>
-            <dd>Remove a country</dd>
-            <dt>
-                <pre>DELETE - /api/v1/countries/23 { name: test }</pre>
-            </dt>
+            <dt>Retrieve a country</dt>
+            <dd><pre>GET - /api/v1/countries/23</pre></dd>
+            <dt>Retrieve all countries</dt>
+            <dd><pre>GET - /api/v1/countries/list</pre></dd>
+            <dt>Add a new country</dt>
+            <dd><pre>POST - /api/v1/countries { name: "test" }</pre></dd>
+            <dt>Update a country</dt>
+            <dd><pre>PUT - /api/v1/countries { name: "another" }</pre></dd>
+            <dt>Remove a country</dt>
+            <dd><pre>DELETE - /api/v1/countries/23 { name: test }</pre></dd>
         </dl>
     </div>
 </div>
