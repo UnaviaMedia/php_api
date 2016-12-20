@@ -9,7 +9,7 @@ class API_V1 extends API {
 	
 	protected function countries() {
 		require_once(DAL . "/dal_countries.php");
-		
+
 		switch($this->method) {
 			case "GET":
 				switch($this->verb) {
@@ -19,21 +19,35 @@ class API_V1 extends API {
 						break;
 					default:
 						$id = $_GET["id"];
-						readCountry($id);
+						$country = readCountry($id);
+						return $country;
 						break;
 				}
 				break;
 			case "POST":
+				$name = $_GET["name"];
+				$country = new Country("", $name);
+				$result = createCountry($country);
+				return $result;
 				break;
 			case "PUT":
+				$id = $_POST["id"];
+				$name = $_POST["name"];
+				$country = new Country($id, $name);
+				$result = updateCountry($country);
+				return $result;
 				break;
 			case "DELETE":
+				$id = $_POST["id"];
+				
+				$result = deleteCountry($id);
+				return $result;
 				break;
 			default:
 				break;
 		}
 	}
-	
+
 	//Endpoint method
 	protected function example() {
 		switch($this->method) {

@@ -6,7 +6,7 @@ require_once(MODELS . "/Country.php");
 
 function createCountry($country) {
 	$conn = DB::connect();
-	$sql = "INSERT INTO countries VALUES (default, {$country->name});";
+	$sql = sprintf("INSERT INTO countries VALUES (default, '%s');", $country->getName());	
 	
 	if ( $conn->query($sql) != true ) {
 		return $conn->error;
@@ -30,15 +30,15 @@ function readCountry($id) {
 	
 	return $countries[0];*/
 	
-	$row = $result->fetch_assoc()[0];	
+	$row = $result->fetch_assoc()[0];
 	$country = new Country($row["id"], $row["name"]);
 	return $country;
 }
 
 function readCountries() {
 	$conn = DB::connect();
-	$sql = "SELECT * FROM countries ORDER BY id;";	
-	$result = $conn->query($sql);	
+	$sql = "SELECT * FROM countries ORDER BY id;";
+	$result = $conn->query($sql);
 	
 	$countries = array();
 	
@@ -52,7 +52,7 @@ function readCountries() {
 
 function updateCountry($country) {
 	$conn = DB::connect();
-	$sql = "UPDATE countries SET name='{$country->name}' WHERE id='{$country->id}';";
+	$sql = "UPDATE countries SET name='{$country->getName()}' WHERE id='{$country->getId()}';";
 	
 	if ( $conn->query($sql) != true ) {
 		return $conn->error;

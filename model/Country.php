@@ -1,6 +1,7 @@
 <?php
 
 class Country {
+	//TODO: Fix this (they need to be public currently)
 	protected $id;
 	protected $name;
 	
