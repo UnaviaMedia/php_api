@@ -4,6 +4,8 @@ Simple example of a PHP API
 ## Description
 This project was spawned simply because I wanted to gain a better understanding both of APIs in general as well as REST oriented architecture. I've followed my understanding of REST APIs as best I can, helped by various blogs and specifically a post from [Creating-a-restful-api-with-php/](http://coreymaynard.com/blog/creating-a-restful-api-with-php/).
 
+Additional help from [Building REST API for legacy PHP Projects](https://www.toptal.com/php/building-rest-api-for-legacy-php-projects);
+
 ## Features
 - [x] Support `CRUD` operations with a PHP REST API
 - [ ] Simple authentication
