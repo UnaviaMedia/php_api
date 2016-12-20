@@ -1,13 +1,16 @@
 <?php
 require_once("/home/cabox/workspace/constants.php");
-require_once(API_BASE);
+require_once(API_BASE . "/v1/api_base.php");
 
 class API_V1 extends API {
 	//protected $User;
 
 	public function __construct($request, $origin) {
 		parent::__construct($request);
-		
+
+		//Set API version
+		$this->version = "v1";
+
 		/*// Abstracted out for example
 		$APIKey = new Models\APIKey();
 		$User = new Models\User();
