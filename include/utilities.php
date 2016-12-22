@@ -90,6 +90,16 @@ class ApiResponse extends Response {
 	}
 }
 
+class ValidationError {
+	public $fieldName;
+	public $message;
+	
+	function __construct($fieldName, $message) {
+		$this->fieldName = $fieldName;
+		$this->message = $message;
+	}
+}
+
 function isPositiveInt($value) {
 	if ( is_numeric($value) && ((string)(int)$value === (string)$value) && (int)$value >= 0 ) {
 		return true;
