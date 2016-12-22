@@ -19,5 +19,8 @@ try {
     $apiResponse =  new ApiResponse(1, "ERROR: " . $e->getMessage());
 }
 
+//Set HTTP status header
+$apiResponse->setResponseHeader();
+
 //Output the JSON formatted API response
 echo json_encode($apiResponse);
