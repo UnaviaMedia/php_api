@@ -40,11 +40,11 @@ class Continent {
 		
 		//Handle any validation errors
 		if ( count($errors) > 0 ) {
-			//TODO: Return anything???
+			//TODO: Return any data???
 			return new ValidationResponse(1, $errors, "");
 		}
 		
-		//TODO: What is "$this"?
+		//TODO: What is "$this"? Is the the object that the function is called on?
 		return new ValidationResponse(0, "SUCCESS: Continent created", $this);
 	}
 	
