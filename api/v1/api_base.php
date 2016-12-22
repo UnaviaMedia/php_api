@@ -81,7 +81,7 @@ abstract class API {
 		}
 		
 		//TODO: Return correct response
-		return new ApiResponse(1, "ERROR: No Endpoint: $this->endpoint");
+		return json_encode(new ApiResponse(1, "ERROR: No Endpoint: $this->endpoint"));
 	}
 
 	//Create the response headers and data

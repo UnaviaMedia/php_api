@@ -17,7 +17,7 @@ switch($this->method) {
 	case "DELETE":
 	default:
 		//$status = 1;
-		$response = "Only GET methods are accepted for the sample API";
+		$response = "Only GET methods are accepted for the information API";
 		//$data = "";
 		break;
 }
