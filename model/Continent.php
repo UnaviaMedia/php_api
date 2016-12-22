@@ -50,7 +50,7 @@ class Continent {
 	
 	
 	//Data Access Layer functionality
-	public static function createContinent($continent) {
+	public static function create($continent) {
 		$conn = DB::connect();
 		$sql = sprintf("INSERT INTO continents VALUES (default, '%s');", $continent->getName());
 
@@ -61,7 +61,7 @@ class Continent {
 		return true;
 	}
 
-	public static function readContinent($id) {
+	public static function read($id) {
 		$conn = DB::connect();
 		$sql = "SELECT * FROM continents WHERE id=$id LIMIT 1;";
 		$result = $conn->query($sql);
@@ -71,7 +71,7 @@ class Continent {
 		return $continent;
 	}
 
-	public static function readContinents() {
+	public static function readAll() {
 		$conn = DB::connect();
 		$sql = "SELECT * FROM continents ORDER BY id;";
 		$result = $conn->query($sql);
@@ -86,7 +86,7 @@ class Continent {
 		return $continents;
 	}
 
-	public static function updateContinent($continent) {
+	public static function update($continent) {
 		$conn = DB::connect();
 		$sql = "UPDATE continents SET name='{$continent->getName()}' WHERE id='{$continent->getId()}';";
 
@@ -97,7 +97,7 @@ class Continent {
 		return true;
 	}
 
-	public static function deleteContinent($id) {
+	public static function delete($id) {
 		$conn = DB::connect();
 		$sql = "DELETE FROM continents WHERE id='$id';";
 
