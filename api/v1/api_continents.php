@@ -10,32 +10,32 @@ switch($this->method) {
 	case "GET":
 		switch($this->verb) {
 			case "list":
-				$countries = readCountries();
-				return $countries;
+				$continents = readContinents();
+				return $continents;
 				break;
 			default:
 				$id = $_GET["id"];
-				$country = readCountry($id);
-				return $country;
+				$continent = readContinent($id);
+				return $continent;
 				break;
 		}
 		break;
 	case "POST":
 		$name = $_GET["name"];
-		$country = new Country("", $name);
-		$result = createCountry($country);
+		$continent = new Continent("", $name);
+		$result = createContinent($continent);
 		return $result;
 		break;
 	case "PUT":
 		$id = $_POST["id"];
 		$name = $_POST["name"];
-		$country = new Country($id, $name);
-		$result = updateCountry($country);
+		$continent = new Continent($id, $name);
+		$result = updateContinent($continent);
 		return $result;
 		break;
 	case "DELETE":
 		$id = $_POST["id"];
-		$result = deleteCountry($id);
+		$result = deleteContinent($id);
 		return $result;
 		break;
 	default:
