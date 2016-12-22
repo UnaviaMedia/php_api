@@ -76,18 +76,13 @@ abstract class API {
 
 		//Determine if file exists for the requested endpoint
 		if ( file_exists($apiFile) ) {
+			//Process the API and return the result to the user (ApiResponse object)
 			$response = require_once($apiFile);
-			return json_encode($response);
+			return $response;
 		}
 		
-		//TODO: Return correct response
-		return json_encode(new ApiResponse(1, "ERROR: No Endpoint: $this->endpoint"));
-	}
-
-	//Create the response headers and data
-	private function response($data, $status = 200) {
-		header("HTTP/1.1 " . $status . " " . $this->requestStatus($status));
-		return json_encode($data);
+		//Return endpoint error response
+		return new ApiResponse(1, "ERROR: No Endpoint: $this->endpoint");
 	}
 
 	//Clean the input from the request
@@ -102,6 +97,12 @@ abstract class API {
 			$clean_input = trim(strip_tags($data));
 		}
 		return $clean_input;
+	}
+
+	//Create the response headers and data
+	private function response($data, $status = 200) {
+		header("HTTP/1.1 " . $status . " " . $this->requestStatus($status));
+		return json_encode($data);
 	}
 
 	//Set the request status code
