@@ -1,48 +1,56 @@
 <?php
 require_once("/home/cabox/workspace/constants.php");
 
-class ValidationResponse {
-	public $status;
-	public $response;
-	public $data;
-
-	function __construct($status, $response, $data = "") {
-		$this->response = $response;
-
-		//Handle invalid validation status codes (set as error and overwrite response message)
-		if ( $status != 0 && $status != 1 ) {
-			$this->status = $status;
-		} else {
-			$this->status = 1;
-			$this->response = "Invalid Validation response status code specified";
-		}
-
-		$this->data = $data;
-	}
-}
-
-class ApiResponse {
+class Response {
+	public $responseType;
 	public $status;
 	public $response;
 	public $data;
 	
+	function __construct($status, $response, $data = "") {
+		$this->response = $response;
+		$this->data = $data;
+		
+		//Handle invalid response status codes
+		if ( isPositiveInt($status) ) {
+			$this->status = $status;
+		} else {
+			//Set the response status as warning and override the response
+			$this->status = 2;
+			$this->response = "Invalid $this->responseType response status code specified";
+		}
+	}
+}
+
+class ValidationResponse extends Response {
+
+	function __construct($status, $response, $data = "") {
+		$this->responseType = "Validation";
+		
+		parent::__construct($status, $response, $data);
+	}
+}
+
+class DatabaseResponse extends Response {
+
+	function __construct($status, $response, $data = "") {
+		$this->responseType = "Database";
+		
+		parent::__construct($status, $response, $data);
+	}
+}
+
+class ApiResponse extends Response {
+
 	public function setHttpCode($code) {
 		$this->httpCode = $code;
 	}
 
 	function __construct($status, $response, $data = "") {
-		$this->response = $response;
-
-		//Handle invalid response status codes (set as warning and overwrite response message)
-		if ( isPositiveInt($status) ) {
-			$this->status = $status;
-		} else {
-			$this->status = 2;
-			$this->response = "Invalid API response status code specified";
-		}
-
-		$this->data = $data;
-	}	
+		$this->responseType = "API";
+		
+		parent::__construct($status, $response, $data);
+	}
 	
 	public function setResponseHeader() {
 		$statusCode = "";
