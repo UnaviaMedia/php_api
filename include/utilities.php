@@ -77,6 +77,7 @@ class ApiResponse {
 			500 => 'Internal Server Error',
 		); 
 		
+		//If the status code is not valid return a generic server error
 		return ($status[$code]) ? $status[$code] : $status[500]; 
 	}
 }

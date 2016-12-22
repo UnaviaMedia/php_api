@@ -2,6 +2,10 @@
 require_once("/home/cabox/workspace/constants.php");
 require_once(MODELS . "/Continent.php");
 
+$status = 1;
+$response = "API Error";
+$data = "";
+
 switch($this->method) {
 	case "GET":
 		switch($this->verb) {
