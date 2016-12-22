@@ -10,4 +10,19 @@ Additional help from [Building REST API for legacy PHP Projects](https://www.top
 - [x] Support `CRUD` operations with a PHP REST API
 - [ ] Simple authentication
 
+## Usage
+Requests are handled based on the HTTP Request type in a manner closely corresponding to typical CRUD operations.
+
+- Create => POST
+- Read => GET
+- Update => PUT
+- Delete => DELETE
+
+Example usage:
+
+```bash
+curl GET http:[SEVER_IP]/api/[VERSION]/example
+curl GET http://127.0.0.1/api/v1/example
+```
+
 _Disclaimer: This project is intended for learning purposes only and should not be thought of otherwise. I recognize that there are inevitable security failures, many of which I have no desire to fix for the purposes of this project._
