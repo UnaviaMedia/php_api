@@ -82,7 +82,9 @@ abstract class API {
 		}
 		
 		//Return endpoint error response
-		return new ApiResponse(1, "ERROR: No Endpoint: $this->endpoint");
+		$response = new ApiResponse(1, "ERROR: No Endpoint: $this->endpoint");
+		$response->httpCode = 404;
+		return $response;
 	}
 
 	//Clean the input from the request
