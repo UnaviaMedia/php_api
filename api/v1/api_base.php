@@ -82,11 +82,6 @@ abstract class API {
 		
 		//TODO: Return correct response
 		return new ApiResponse(1, "ERROR: No Endpoint: $this->endpoint");
-
-		/*if (method_exists($this, $this->endpoint)) {
-			return $this->response($this->{$this->endpoint}($this->args));
-		}
-		return $this->response("No Endpoint: $this->endpoint", 404);*/
 	}
 
 	//Create the response headers and data

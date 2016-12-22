@@ -13,10 +13,10 @@ Additional help from [Building REST API for legacy PHP Projects](https://www.top
 ## Usage
 Requests are handled based on the HTTP Request type in a manner closely corresponding to typical CRUD operations.
 
-- Create => POST
-- Read => GET
-- Update => PUT
-- Delete => DELETE
+- Create => `POST`
+- Read => `GET`
+- Update => `PUT`
+- Delete => `DELETE`
 
 Example usage:
 

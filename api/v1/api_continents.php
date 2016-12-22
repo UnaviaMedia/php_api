@@ -31,7 +31,6 @@ switch($this->method) {
 		break;
 	case "DELETE":
 		$id = $_POST["id"];
-
 		$result = deleteCountry($id);
 		return $result;
 		break;
