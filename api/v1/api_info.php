@@ -14,7 +14,12 @@ switch($this->method) {
 			"version" => $this->version,
 			"requestIP" => $_SERVER["REMOTE_ADDR"],
 			"currentTime" => date("Y/m/d H:i:s", time()),
-			"prettyTime" => date("M-d-Y h:i:s A", time())
+			"prettyTime" => date("M-d-Y h:i:s A", time()),
+			"apiStatusCodes" => array(
+				"0 => Success",
+				"1 => Error",
+				"2 => Warning"
+			)
 		);
 		break;
 	case "POST":
