@@ -27,7 +27,7 @@ class ApiResponse {
 	public $data;
 	
 	public function setHttpCode($code) {
-		$this->code = $code;
+		$this->httpCode = $code;
 	}
 
 	function __construct($status, $response, $data = "") {
@@ -45,25 +45,28 @@ class ApiResponse {
 	}	
 	
 	public function setResponseHeader() {
-		$status = "";
+		$statusCode = "";
 		
 		//If a code was specified set it as the HTTP status code
-		if ( $this->httpCode ) {
-			$status = $this->httpCode;
+		if ( isset($this->httpCode) ) {
+			$statusCode = $this->httpCode;
 		} else {
-			switch ($status) {
+			switch ($this->status) {
 				case 0:
-					$status = 200;
+					$statusCode = 200;
 					break;
 				case 1:
 				default:
-					$status = 500;
+					$statusCode = 500;
 					break;
 			}
 		}
 		
+		//Remove the HTTP status code from the response object
+		unset($this->httpCode);
+		
 		//Set the header information
-		header("HTTP/1.1 " . $status . " " . $this->requestStatus($status));
+		header("HTTP/1.1 " . $statusCode . " " . $this->requestStatus($statusCode));
 	}
 	
 	private function requestStatus($code) {
