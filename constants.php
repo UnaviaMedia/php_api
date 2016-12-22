@@ -11,6 +11,7 @@ define("INCLUDES", HTML_ROOT . "/include");
 //Common fragments
 define("FRAGMENT_HEADER", INCLUDES . "/header.php");
 define("FRAGMENT_FOOTER", INCLUDES . "/footer.php");
+define("UTILITIES", INCLUDES . "/utilities.php");
 
 //Static Page Title
 define("PAGE_TITLE", "&ensp;|&ensp;PHP API Test");
@@ -24,5 +25,4 @@ define("DAL", HTML_ROOT . "/dal");
 define("DATABASE", HTML_ROOT . "/database.php");
 
 //API Constants
-define("API_BASE", "/home/cabox/workspace/api/api_base.php");
-define("API_V1", "/home/cabox/workspace/api/v1/");
+define("API_BASE", "/home/cabox/workspace/api");

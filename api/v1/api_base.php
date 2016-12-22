@@ -2,6 +2,7 @@
 require_once("/home/cabox/workspace/constants.php");
 
 abstract class API {
+	protected $version = "";
     //The HTTP method this request was made in, either GET, POST, PUT or DELETE
     protected $method = "";
 	//The Model requested in the URI. eg: /files
@@ -70,16 +71,20 @@ abstract class API {
 	
 	//Determine if concrete class implements a method for the requested endpoint
 	public function processAPI() {
-		if (method_exists($this, $this->endpoint)) {
-			return $this->response($this->{$this->endpoint}($this->args));
-		}
-		return $this->response("No Endpoint: $this->endpoint", 404);
-	}
+		//Get the api file that corresponds to the requested endpoint
+		$apiFile = API_BASE . "/{$this->version}/api_" . strtolower($this->endpoint) . ".php";
 
-	//Create the response headers and data
-	private function response($data, $status = 200) {
-		header("HTTP/1.1 " . $status . " " . $this->requestStatus($status));
-		return json_encode($data);
+		//Determine if file exists for the requested endpoint
+		if ( file_exists($apiFile) ) {
+			//Process the API and return the result to the user (ApiResponse object)
+			$response = require_once($apiFile);
+			return $response;
+		}
+		
+		//Return endpoint error response
+		$response = new ApiResponse(1, "ERROR: No Endpoint: $this->endpoint");
+		$response->httpCode = 404;
+		return $response;
 	}
 
 	//Clean the input from the request
@@ -94,16 +99,5 @@ abstract class API {
 			$clean_input = trim(strip_tags($data));
 		}
 		return $clean_input;
-	}
-
-	//Set the request status code
-	private function requestStatus($code) {
-		$status = array(  
-			200 => 'OK',
-			404 => 'Not Found',   
-			405 => 'Method Not Allowed',
-			500 => 'Internal Server Error',
-		); 
-		return ($status[$code]) ? $status[$code] : $status[500]; 
 	}
 }
