@@ -10,7 +10,12 @@ switch($this->method) {
 	case "GET":
 		$status = 0;
 		$response = "Example API Usage";
-		$data = array("version" => $this->version);
+		$data = array(
+			"version" => $this->version,
+			"requestIP" => $_SERVER["REMOTE_ADDR"],
+			"currentTime" => date("Y/m/d H:i:s", time()),
+			"prettyTime" => date("M-d-Y h:i:s A", time())
+		);
 		break;
 	case "POST":
 	case "PUT":
