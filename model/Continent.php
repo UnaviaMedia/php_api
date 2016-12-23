@@ -3,108 +3,166 @@ require_once("/home/cabox/workspace/constants.php");
 require_once(UTILITIES);
 require_once(DATABASE);
 
+/**
+ * @brief	Model class for Continents
+ */
 class Continent {
-	//TODO: Fix this (they need to be public currently)
-	protected $id;
-	protected $name;
-	
-	public function getId() {
-		return $this->id;
-	}
-	
-	public function getName() {
-		return $this->name;
-	}
-	
-	public function setName($name) {
-		$this->name = $name;
-	}
+	public $id;
+	public $name;
 	
 	function __construct($id, $name) {
 		$this->id = $id;
 		$this->name = $name;
-		
-		return validate();
 	}
 	
-	//Handle validation
+	/**
+	 * @brief	Validate the Continent model
+	 */
 	public function validate() {
 		$errors = array();
 		
 		//Validation
-		if ( strlen($this->name) < 2 ) {
-			$errors[] = new ValidationError("name", "Name must be greater than 2 characters");
+		if ( strlen($this->name) == 0 ) {
+			$errors[] = new ValidationError("name", "Name is required");
+		}
+		else if ( strlen($this->name) < 3 ) {
+			$errors[] = new ValidationError("name", "Name must be greater than 3 characters");
 		}
 		
 		//More validation...
 		
 		//Handle any validation errors
 		if ( count($errors) > 0 ) {
-			//TODO: Return anything???
-			return new ValidationResponse(1, $errors, "");
+			return new ValidationResponse(1, "Continent is invalid", $errors);
 		}
 		
-		//TODO: What is "$this"?
-		return new ValidationResponse(0, "SUCCESS: Continent created", $this);
+		//Return the validated continent
+		return new ValidationResponse(0, "Continent created ('{$this->name}')", $this);
 	}
 	
 	
-	//Data Access Layer functionality
-	public static function createContinent($continent) {
+	///////////////////////////////////////////////////////////////////////////////
+	//	Data Access Layer functionality
+	///////////////////////////////////////////////////////////////////////////////
+	
+	/**
+	 * @brief	Create a continent record in the database
+	 * @param	$continent	Continent record to create
+	 * @return	DatabaseResponse object with created continent
+	 */
+	public static function create($continent) {
 		$conn = DB::connect();
-		$sql = sprintf("INSERT INTO continents VALUES (default, '%s');", $continent->getName());
+		$sql = sprintf("INSERT INTO continents VALUES (default, '%s');", $continent->name);
 
-		if ( $conn->query($sql) != true ) {
-			return $conn->error;
+		//Handle query errors
+		//	TODO: Add duplicate/existing record warning (or handle this in controller)
+		if ( $conn->query($sql) != true || $conn->affected_rows == 0) {
+			return new DatabaseResponse(1, "Adding continent failed ('{$continent->name}')", $conn->error);
 		}
 
-		return true;
+		//Return database response with the created continent
+		return new DatabaseResponse(0, "Added continent ('{$continent->name}')", $continent);
 	}
 
-	public static function readContinent($id) {
+	/**
+	 * @brief	Read a continent record from the database
+	 * @param	$id	Continent id to retrieve
+	 * @return	DatabaseResponse object with specified continent
+	 */
+	public static function read($id) {
 		$conn = DB::connect();
 		$sql = "SELECT * FROM continents WHERE id=$id LIMIT 1;";
-		$result = $conn->query($sql);
+		
+		//Handle query errors
+		if ( !$result = $conn->query($sql) ) {
+			return new DatabaseResponse(1, $conn->error);
+		}
+		
+		//Handle empty result (warning)
+		if ( $result->num_rows == 0 ) {
+			return new DatabaseResponse(2, "No continent with id='$id' found");
+		}
 
-		$row = $result->fetch_assoc()[0];
+		//Create the continent object
+		$row = $result->fetch_assoc();
 		$continent = new Continent($row["id"], $row["name"]);
-		return $continent;
+		
+		//Return database response with the continent
+		return new DatabaseResponse(0, "Continent retrieved ({$continent->name})", $continent);
 	}
 
-	public static function readContinents() {
+	/**
+	 * @brief	Read all continent records from the database
+	 * @return	DatabaseResponse object with list of continents
+	 */
+	public static function readAll() {
 		$conn = DB::connect();
 		$sql = "SELECT * FROM continents ORDER BY id;";
-		$result = $conn->query($sql);
+		
+		//Handle query errors
+		if ( !$result = $conn->query($sql) ) {
+			return new DatabaseResponse(1, $conn->error);
+		}
+		
+		//Handle empty result (warning)
+		if ( $result->num_rows == 0 ) {
+			return new DatabaseResponse(2, "No continents found");
+		}
 
 		$continents = array();
 
+		//Create an array of continents
 		while ( $row = $result->fetch_assoc() ) {
 			$continent = new Continent($row["id"], $row["name"]);
 			$continents[] = $continent;
 		}
-
-		return $continents;
+		
+		//Return database response with the array of continents
+		return new DatabaseResponse(0, "All continents retrieved", $continents);
 	}
 
-	public static function updateContinent($continent) {
+	/**
+	 * @brief	Update a continent record in the database
+	 * @param	$continent	Continent record to update
+	 * @return	DatabaseResponse object with updated continent
+	 */
+	public static function update($continent) {
 		$conn = DB::connect();
-		$sql = "UPDATE continents SET name='{$continent->getName()}' WHERE id='{$continent->getId()}';";
-
-		if ( $conn->query($sql) != true ) {
-			return $conn->error;
+		$sql = "UPDATE continents SET name='{$continent->name}' WHERE id='{$continent->id}';";
+		
+		//Handle query errors
+		if ( $conn->query($sql) != true || $conn->affected_rows == 0) {
+			return new DatabaseResponse(1, "Updating continent failed ('{$continent->name}')", $conn->error);
 		}
 
-		return true;
+		//Return database reponse with updated continent
+		return new DatabaseResponse(0, "Continent updated ('{$continent->name}')", $continent);
 	}
 
-	public static function deleteContinent($id) {
+	/**
+	 * @brief	Delete a continent record from the database
+	 * @param	$id	Continent id to delete
+	 * @return	DatabaseResponse object with deleted continent
+	 */
+	public static function delete($id) {
 		$conn = DB::connect();
 		$sql = "DELETE FROM continents WHERE id='$id';";
-
-		if ( $conn->query($sql) ) {
-			return $conn->error;
+		
+		//DEBUG: Get the continent for debugging purposes
+		$continentResult = Continent::read($id);
+		$continent = $continentResult->data;
+		
+		//Handle trying to delete a non-existent continent
+		if ( $continentResult->status != 0 ) {
+			return new DatabaseResponse(1, "Continent not found for deletion ('$id')");
 		}
 
-		return true;
+		//Handle query errors
+		if ( $conn->query($sql) != true || $conn->affected_rows == 0 ) {
+			return new DatabaseResponse(1, "Deleting continent failed ('{$continent->name}')", $conn->error);
+		}
+
+		//Return database response with deleted continent
+		return new DatabaseResponse(0, "Deleted continent ('{$continent->name}')", $continent);
 	}
 }

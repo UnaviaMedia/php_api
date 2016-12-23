@@ -1,6 +1,9 @@
 <?php
 require_once("/home/cabox/workspace/constants.php");
 
+/**
+ * @brief	Base API class for handling the requested data and response information/data
+ */
 abstract class API {
 	protected $version = "";
     //The HTTP method this request was made in, either GET, POST, PUT or DELETE
@@ -14,14 +17,8 @@ abstract class API {
 	//	eg: /<endpoint>/<verb>/<arg0>/<arg1> or /<endpoint>/<arg0>
     protected $args = Array();
 	//Stores the input of the PUT request
-     protected $file = null;
-
-	/**
-	 * @brief	Constructor for API
-	 * Allow for CORS, assemble and pre-process the data
-	 *
-	 * @param	request		Request to generate an API for
-	 */
+     protected $PUT = null;
+	
     public function __construct($request) {
 		//Set header information
 		header("Access-Control-Allow-Orgin: *");
@@ -32,6 +29,7 @@ abstract class API {
 		$this->args = explode('/', rtrim($request, '/'));
 		//Get the endpoint from the request
 		$this->endpoint = array_shift($this->args);
+		//Get the additional request verb
 		if (array_key_exists(0, $this->args) && !is_numeric($this->args[0])) {
 			$this->verb = array_shift($this->args);
 		}
@@ -60,8 +58,8 @@ abstract class API {
 				break;
 			case 'PUT':
 				$this->request = $this->cleanInputs($_GET);
-				//PUT stores its data within PHP's "input" file
-				$this->file = file_get_contents("php://input");
+				//Parse the data from the input file (where PHP stores PUT data) into the "PUT" variable
+				parse_str(file_get_contents("php://input"), $this->PUT);
 				break;
 			default:
 				$this->response('Invalid Method', 405);
@@ -69,10 +67,13 @@ abstract class API {
 		}
     }
 	
-	//Determine if concrete class implements a method for the requested endpoint
+	/**
+	 * @brief	Process the API request and return the resulting data
+	 * @return	Response status and data
+	 */
 	public function processAPI() {
 		//Get the api file that corresponds to the requested endpoint
-		$apiFile = API_BASE . "/{$this->version}/api_" . strtolower($this->endpoint) . ".php";
+		$apiFile = API_PATH . "/{$this->version}/api_" . strtolower($this->endpoint) . ".php";
 
 		//Determine if file exists for the requested endpoint
 		if ( file_exists($apiFile) ) {
@@ -87,9 +88,14 @@ abstract class API {
 		return $response;
 	}
 
-	//Clean the input from the request
+	/**
+	 * @brief	Clean the request input data
+	 * @param	$data	Request input data
+	 * @return	Sanitized data
+	 */
 	private function cleanInputs($data) {
 		$clean_input = Array();
+		//Handle arrays by recursively calling the function
 		if (is_array($data)) {
 			foreach ($data as $k => $v) {
 				$clean_input[$k] = $this->cleanInputs($v);

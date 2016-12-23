@@ -12,17 +12,19 @@ define("INCLUDES", HTML_ROOT . "/include");
 define("FRAGMENT_HEADER", INCLUDES . "/header.php");
 define("FRAGMENT_FOOTER", INCLUDES . "/footer.php");
 define("UTILITIES", INCLUDES . "/utilities.php");
+define("RESPONSE_CLASSES", INCLUDES . "/responses.php");
 
 //Static Page Title
 define("PAGE_TITLE", "&ensp;|&ensp;PHP API Test");
-//Dynamic Page Title
+//Dynamic Page Title (set before including FRAGMENT_HEADER)
 $PAGE_TITLE = "";
 
 //MVC Constants
 define("MODELS", HTML_ROOT . "/model");
 define("CONTROLLERS", HTML_ROOT . "/controller");
-define("DAL", HTML_ROOT . "/dal");
 define("DATABASE", HTML_ROOT . "/database.php");
 
+define("DATABASE_CONSTANTS", HTML_ROOT . "/database_constants.php");
+
 //API Constants
-define("API_BASE", "/home/cabox/workspace/api");
+define("API_PATH", "/home/cabox/workspace/api");

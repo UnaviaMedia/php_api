@@ -1,43 +1,51 @@
 <?php
 require_once("/home/cabox/workspace/constants.php");
-require_once(MODELS . "/Continent.php");
+require_once(UTILITIES);
+require_once(CONTROLLERS . "/con_continents.php");
 
 $status = 1;
-$response = "API Error";
+$message = "API Error - continents";
 $data = "";
 
 switch($this->method) {
 	case "GET":
-		switch($this->verb) {
-			case "list":
-				$countries = readCountries();
-				return $countries;
-				break;
-			default:
-				$id = $_GET["id"];
-				$country = readCountry($id);
-				return $country;
-				break;
+		//Either get all continents or a single one
+		if ( isset($this->args[0]) ) {
+			//Get the requested continent id from the arguments
+			$id = $this->args[0];
+			//Get the requested continent and return the result
+			$result = readContinent($id);
+			return new ApiResponse($result->status, $result->message, $result->data);
+			break;
+		} else {
+			//Get the continents and return the result
+			$result = readContinents();
+			return new ApiResponse($result->status, $result->message, $result->data);
 		}
 		break;
 	case "POST":
-		$name = $_GET["name"];
-		$country = new Country("", $name);
-		$result = createCountry($country);
-		return $result;
-		break;
+		//Get the continent parameters
+		$name = isset($_POST["name"]) ? $_POST["name"] : "";
+		//Create the continent and return the result
+		$result = createContinent($name);
+		return new ApiResponse($result->status, $result->message, $result->data);
 	case "PUT":
-		$id = $_POST["id"];
-		$name = $_POST["name"];
-		$country = new Country($id, $name);
-		$result = updateCountry($country);
-		return $result;
-		break;
+		//Get the updated continent parameters
+		$id = 	isset($this->PUT["id"]) 	? $this->PUT["id"] 	: "";
+		$name = isset($this->PUT["name"]) 	? $this->PUT["name"]	: "";
+		//Update the continent and return the result
+		$result = updateContinent($id, $name);
+		return new ApiResponse($result->status, $result->message, $result->data);
 	case "DELETE":
-		$id = $_POST["id"];
-		$result = deleteCountry($id);
-		return $result;
-		break;
+		//Get the id of the continent to delete
+		$id = isset($this->args[0]) ? $this->args[0] : "";
+		//Delete the continent and return the result
+		$result = deleteContinent($id);
+		return new ApiResponse($result->status, $result->message, $result->data);
 	default:
 		break;
 }
+
+//Return a generic API response
+return new ApiResponse($status, $message, $data);
+
