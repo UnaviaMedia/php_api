@@ -3,6 +3,9 @@ require_once("/home/cabox/workspace/constants.php");
 require_once(UTILITIES);
 require_once(DATABASE);
 
+/**
+ * @brief	Model class for Continents
+ */
 class Continent {
 	public $id;
 	public $name;
@@ -12,7 +15,9 @@ class Continent {
 		$this->name = $name;
 	}
 	
-	//Handle validation
+	/**
+	 * @brief	Validate the Continent model
+	 */
 	public function validate() {
 		$errors = array();
 		
@@ -36,8 +41,15 @@ class Continent {
 	}
 	
 	
-	//Data Access Layer functionality
+	///////////////////////////////////////////////////////////////////////////////
+	//	Data Access Layer functionality
+	///////////////////////////////////////////////////////////////////////////////
 	
+	/**
+	 * @brief	Create a continent record in the database
+	 * @param	$continent	Continent record to create
+	 * @return	DatabaseResponse object with created continent
+	 */
 	public static function create($continent) {
 		$conn = DB::connect();
 		$sql = sprintf("INSERT INTO continents VALUES (default, '%s');", $continent->name);
@@ -52,6 +64,11 @@ class Continent {
 		return new DatabaseResponse(0, "Added continent ('{$continent->name}')", $continent);
 	}
 
+	/**
+	 * @brief	Read a continent record from the database
+	 * @param	$id	Continent id to retrieve
+	 * @return	DatabaseResponse object with specified continent
+	 */
 	public static function read($id) {
 		$conn = DB::connect();
 		$sql = "SELECT * FROM continents WHERE id=$id LIMIT 1;";
@@ -74,6 +91,10 @@ class Continent {
 		return new DatabaseResponse(0, "Continent retrieved ({$continent->name})", $continent);
 	}
 
+	/**
+	 * @brief	Read all continent records from the database
+	 * @return	DatabaseResponse object with list of continents
+	 */
 	public static function readAll() {
 		$conn = DB::connect();
 		$sql = "SELECT * FROM continents ORDER BY id;";
@@ -100,6 +121,11 @@ class Continent {
 		return new DatabaseResponse(0, "All continents retrieved", $continents);
 	}
 
+	/**
+	 * @brief	Update a continent record in the database
+	 * @param	$continent	Continent record to update
+	 * @return	DatabaseResponse object with updated continent
+	 */
 	public static function update($continent) {
 		$conn = DB::connect();
 		$sql = "UPDATE continents SET name='{$continent->name}' WHERE id='{$continent->id}';";
@@ -113,6 +139,11 @@ class Continent {
 		return new DatabaseResponse(0, "Continent updated ('{$continent->name}')", $continent);
 	}
 
+	/**
+	 * @brief	Delete a continent record from the database
+	 * @param	$id	Continent id to delete
+	 * @return	DatabaseResponse object with deleted continent
+	 */
 	public static function delete($id) {
 		$conn = DB::connect();
 		$sql = "DELETE FROM continents WHERE id='$id';";

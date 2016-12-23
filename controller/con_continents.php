@@ -3,25 +3,18 @@ require_once("/home/cabox/workspace/constants.php");
 require_once(UTILITIES);
 require_once(MODELS . "/Continent.php");
 
-function readContinents() {
-	//Get a list of all continents
-	$result = Continent::readAll();	
-	return $result;
-}
-
-function readContinent($id) {
-	//Get the specified continent
-	$result = Continent::read($id);	
-	return $result;
-}
-
+/**
+ * @brief	Create a continent and validate it before adding to database
+ * @param	$name	Continent name
+ * @return	DatabaseResponse object with created continent
+ */
 function createContinent($name) {
 	//Create and validate the continent
 	$continent = new Continent("", $name);
 	$result = $continent->validate();
 
+	//Return the ValidationResult object
 	if ( $result->status != 0 ) {
-		//Return the ValidationResult object
 		return $result;
 	}
 
@@ -30,13 +23,40 @@ function createContinent($name) {
 	return $result;
 }
 
+/**
+ * @brief	Get a specific continent
+ * @param	$id	Continent id to retrieve
+ * @return	DatabaseResponse object with specified continent
+ */
+function readContinent($id) {
+	//Get the specified continent
+	$result = Continent::read($id);	
+	return $result;
+}
+
+/**
+ * @brief	Get a list of all continents
+ * @return	DatabaseResponse object with list of continents
+ */
+function readContinents() {
+	//Get a list of all continents
+	$result = Continent::readAll();	
+	return $result;
+}
+
+/**
+ * @brief	Update a continent and validate it before updating database
+ * @param	$id		Id of continent to update
+ * @param	$name	Updated continent name
+ * @return	DatabaseResponse object with updated continent
+ */
 function updateContinent($id, $name) {
 	//Create and validate the updated continent
 	$continent = new Continent($id, $name);
 	$result = $continent->validate();
 	
+	//Return the ValidationResponse object
 	if ( $result->status != 0 ) {
-		//Return the ValidationResponse object
 		return new ValidationResponse(1, "Updated continent is not valid", $result->data);
 	}
 	
@@ -45,6 +65,11 @@ function updateContinent($id, $name) {
 	return $result;
 }
 
+/**
+ * @brief	Delete a continent
+ * @param	$id	Id of continent to delete
+ * @return	DatabaseResponse object with deleted continent
+ */
 function deleteContinent($id) {
 	//Handle empty/invalid ids
 	if ( !isPositiveInt($id) ) {
