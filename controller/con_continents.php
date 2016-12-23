@@ -9,6 +9,13 @@ function readContinents() {
 	return $result;
 }
 
+function readContinent($id) {
+	//Get database reponse object
+	$result = Continent::read($id);
+	
+	return $result;
+}
+
 /*function createContinent($name) {
 	//Create and validate the record
 	$result = new Continent("", $name);
