@@ -19,8 +19,7 @@ function createContinent($name) {
 	}
 
 	//Add the continent to the database
-	$result = Continent::create($continent);
-	return $result;
+	return Continent::create($continent);
 }
 
 /**
@@ -30,8 +29,7 @@ function createContinent($name) {
  */
 function readContinent($id) {
 	//Get the specified continent
-	$result = Continent::read($id);	
-	return $result;
+	return Continent::read($id);	
 }
 
 /**
@@ -40,8 +38,7 @@ function readContinent($id) {
  */
 function readContinents() {
 	//Get a list of all continents
-	$result = Continent::readAll();	
-	return $result;
+	return Continent::readAll();	
 }
 
 /**
@@ -61,8 +58,7 @@ function updateContinent($id, $name) {
 	}
 	
 	//Update the continent in the database
-	$result = Continent::update($continent);
-	return $result;
+	return Continent::update($continent);
 }
 
 /**
@@ -77,6 +73,5 @@ function deleteContinent($id) {
 	}
 	
 	//Delete the specified continent
-	$result = Continent::delete($id);	
-	return $result;
+	return Continent::delete($id);	
 }
