@@ -32,7 +32,7 @@ class Continent {
 		}
 		
 		//Return the validated continent
-		return new ValidationResponse(0, "SUCCESS: Continent created", $this);
+		return new ValidationResponse(0, "Continent created ('{$this->name}')", $this);
 	}
 	
 	
@@ -100,16 +100,18 @@ class Continent {
 		return new DatabaseResponse(0, "All continents retrieved", $continents);
 	}
 
-	/*public static function update($continent) {
+	public static function update($continent) {
 		$conn = DB::connect();
-		$sql = "UPDATE continents SET name='{$continent->getName()}' WHERE id='{$continent->getId()}';";
-
-		if ( $conn->query($sql) != true ) {
-			return $conn->error;
+		$sql = "UPDATE continents SET name='{$continent->name}' WHERE id='{$continent->id}';";
+		
+		//Handle query errors
+		if ( $conn->query($sql) != true || $conn->affected_rows == 0) {
+			return new DatabaseResponse(1, "Updating continent failed ('{$continent->name}')", $conn->error);
 		}
 
-		return true;
-	}*/
+		//Return database reponse with updated continent
+		return new DatabaseResponse(0, "Continent updated ('{$continent->name}')", $continent);
+	}
 
 	public static function delete($id) {
 		$conn = DB::connect();

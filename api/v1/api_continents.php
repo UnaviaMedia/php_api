@@ -30,11 +30,12 @@ switch($this->method) {
 		$result = createContinent($name);
 		return new ApiResponse($result->status, $result->message, $result->data);
 	case "PUT":
-		/*$id = $_POST["id"];
-		$name = $_POST["name"];
-		$continent = new Continent($id, $name);
-		$data = updateContinent($continent);*/
-		break;
+		//Get the updated continent parameters
+		$id = 	isset($this->PUT["id"]) 	? $this->PUT["id"] 	: "";
+		$name = isset($this->PUT["name"]) 	? $this->PUT["name"]	: "";
+		//Update the continent and return the result
+		$result = updateContinent($id, $name);
+		return new ApiResponse($result->status, $result->message, $result->data);
 	case "DELETE":
 		//Get the id of the continent to delete
 		$id = isset($this->args[0]) ? $this->args[0] : "";

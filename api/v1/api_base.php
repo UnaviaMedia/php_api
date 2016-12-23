@@ -17,7 +17,7 @@ abstract class API {
 	//	eg: /<endpoint>/<verb>/<arg0>/<arg1> or /<endpoint>/<arg0>
     protected $args = Array();
 	//Stores the input of the PUT request
-     protected $file = null;
+     protected $PUT = null;
 	
     public function __construct($request) {
 		//Set header information
@@ -58,8 +58,8 @@ abstract class API {
 				break;
 			case 'PUT':
 				$this->request = $this->cleanInputs($_GET);
-				//PUT stores its data within PHP's "input" file
-				$this->file = file_get_contents("php://input");
+				//Parse the data from the input file (where PHP stores PUT data) into the "PUT" variable
+				parse_str(file_get_contents("php://input"), $this->PUT);
 				break;
 			default:
 				$this->response('Invalid Method', 405);

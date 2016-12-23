@@ -30,6 +30,21 @@ function createContinent($name) {
 	return $result;
 }
 
+function updateContinent($id, $name) {
+	//Create and validate the updated continent
+	$continent = new Continent($id, $name);
+	$result = $continent->validate();
+	
+	if ( $result->status != 0 ) {
+		//Return the ValidationResponse object
+		return new ValidationResponse(1, "Updated continent is not valid", $result->data);
+	}
+	
+	//Update the continent in the database
+	$result = Continent::update($continent);
+	return $result;
+}
+
 function deleteContinent($id) {
 	//Handle empty/invalid ids
 	if ( !isPositiveInt($id) ) {
