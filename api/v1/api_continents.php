@@ -13,12 +13,12 @@ switch($this->method) {
 		if ( isset($this->args[0]) ) {
 			//Get the requested continent id from the arguments
 			$id = $this->args[0];
-			//Get the requested continent
+			//Get the requested continent and return the result
 			$result = readContinent($id);
 			return new ApiResponse($result->status, $result->message, $result->data);
 			break;
 		} else {
-			//Get the continents
+			//Get the continents and return the result
 			$result = readContinents();
 			return new ApiResponse($result->status, $result->message, $result->data);
 		}
@@ -26,7 +26,7 @@ switch($this->method) {
 	case "POST":
 		//Get the continent parameters
 		$name = isset($_POST["name"]) ? $_POST["name"] : "";
-		//Create the continent
+		//Create the continent and return the result
 		$result = createContinent($name);
 		return new ApiResponse($result->status, $result->message, $result->data);
 	case "PUT":
@@ -36,13 +36,15 @@ switch($this->method) {
 		$data = updateContinent($continent);*/
 		break;
 	case "DELETE":
-		/*$id = $_POST["id"];
-		$data = deleteContinent($id);*/
-		break;
+		//Get the id of the continent to delete
+		$id = isset($this->args[0]) ? $this->args[0] : "";
+		//Delete the continent and return the result
+		$result = deleteContinent($id);
+		return new ApiResponse($result->status, $result->message, $result->data);
 	default:
 		break;
 }
 
-//Return the proper API response
+//Return a generic API response
 return new ApiResponse($status, $message, $data);
 
