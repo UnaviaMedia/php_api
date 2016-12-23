@@ -10,12 +10,14 @@ $data = "";
 switch($this->method) {
 	case "GET":
 		if ( isset($this->args[0]) ) {
-			/*$id = $this->args[0];
-			$continent = readContinent($id);
-			$result = $continent;*/
+			//Get the requested continent id from the arguments
+			$id = $this->args[0];
+			//Get the requested continent
+			$result = readContinent($id);
+			return new ApiResponse($result->status, $result->message, $result->data);
 			break;
 		} else {
-			//Get an DatabaseResponse object containing the continents and create a ApiResponse
+			//Get the continents
 			$result = readContinents();
 			return new ApiResponse($result->status, $result->message, $result->data);
 		}

@@ -48,15 +48,27 @@ class Continent {
 		return true;
 	}*/
 
-	/*public static function read($id) {
+	public static function read($id) {
 		$conn = DB::connect();
 		$sql = "SELECT * FROM continents WHERE id=$id LIMIT 1;";
-		$result = $conn->query($sql);
+		
+		//Handle query errors
+		if ( !$result = $conn->query($sql) ) {
+			return new DatabaseResponse(1, $conn->error);
+		}
+		
+		//Handle empty result
+		if ( $result->num_rows == 0 ) {
+			return new DatabaseResponse(0, "No continent with id='$id' found");
+		}
 
-		$row = $result->fetch_assoc()[0];
+		//Create the continent object
+		$row = $result->fetch_assoc();
 		$continent = new Continent($row["id"], $row["name"]);
-		return $continent;
-	}*/
+		
+		//Return database response with the continent
+		return new DatabaseResponse(1, "Continent retrieved ($continent->name)", $continent);
+	}
 
 	public static function readAll() {
 		$conn = DB::connect();
@@ -65,6 +77,11 @@ class Continent {
 		//Handle query errors
 		if ( !$result = $conn->query($sql) ) {
 			return new DatabaseResponse(1, $conn->error);
+		}
+		
+		//Handle empty result
+		if ( $result->num_rows == 0 ) {
+			return new DatabaseResponse(0, "No continents found");
 		}
 
 		$continents = array();
@@ -75,8 +92,8 @@ class Continent {
 			$continents[] = $continent;
 		}
 		
-		//Return a database response with the array of continents
-		return new DatabaseResponse(0, "Continents retrieved", $continents);
+		//Return database response with the array of continents
+		return new DatabaseResponse(0, "All continents retrieved", $continents);
 	}
 
 	/*public static function update($continent) {
