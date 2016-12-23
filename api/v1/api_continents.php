@@ -1,44 +1,44 @@
 <?php
 require_once("/home/cabox/workspace/constants.php");
 require_once(UTILITIES);
-require_once(MODELS . "/Continent.php");
+require_once(CONTROLLERS . "/con_continents.php");
 
 $status = 1;
-$response = "API Error";
+$message = "API Error - continents";
 $data = "";
 
 switch($this->method) {
 	case "GET":
-		if ( $this->args[0] ) {
-			$continents = readContinents();
-			$result = $continents;
+		if ( isset($this->args[0]) ) {
+			/*$id = $this->args[0];
+			$continent = readContinent($id);
+			$result = $continent;*/
 			break;
 		} else {
-			$id = $_GET["id"];
-			$continent = readContinent($id);
-			$result = $continent;
-			break;
+			//Get an DatabaseResponse object containing the continents and create a ApiResponse
+			$result = readContinents();
+			return new ApiResponse($result->status, $result->message, $result->data);
 		}
 		break;
 	case "POST":
-		$name = $_GET["name"];
+		/*$name = $_GET["name"];
 		$continent = new Continent("", $name);
-		$data = createContinent($continent);
+		$data = createContinent($continent);*/
 		break;
 	case "PUT":
-		$id = $_POST["id"];
+		/*$id = $_POST["id"];
 		$name = $_POST["name"];
 		$continent = new Continent($id, $name);
-		$data = updateContinent($continent);
+		$data = updateContinent($continent);*/
 		break;
 	case "DELETE":
-		$id = $_POST["id"];
-		$data = deleteContinent($id);
+		/*$id = $_POST["id"];
+		$data = deleteContinent($id);*/
 		break;
 	default:
 		break;
 }
 
 //Return the proper API response
-return new ApiResponse($status, $response, $data);
+return new ApiResponse($status, $message, $data);
 

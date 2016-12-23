@@ -3,13 +3,13 @@ require_once("/home/cabox/workspace/constants.php");
 require_once(UTILITIES);
 
 $status = 1;
-$response = "API Error";
+$message = "API Error - info";
 $data = "";
 
 switch($this->method) {
 	case "GET":
 		$status = 0;
-		$response = "Example API Usage";
+		$message = "Example API Usage";
 		$data = array(
 			"version" => $this->version,
 			"requestIP" => $_SERVER["REMOTE_ADDR"],
@@ -26,9 +26,9 @@ switch($this->method) {
 	case "PUT":
 	case "DELETE":
 	default:
-		$response = "Only GET methods are accepted for the information API";
+		$message = "Only GET methods are accepted for the information API";
 		break;
 }
 
 //Return the proper API response
-return new ApiResponse($status, $response, $data);
+return new ApiResponse($status, $message, $data);

@@ -7,11 +7,11 @@ require_once("/home/cabox/workspace/constants.php");
 class Response {
 	public $responseType;
 	public $status;
-	public $response;
+	public $message;
 	public $data;
 	
-	function __construct($status, $response, $data = "") {
-		$this->response = $response;
+	function __construct($status, $message, $data = "") {
+		$this->message = $message;
 		$this->data = $data;
 		
 		//Handle invalid response status codes
@@ -20,7 +20,7 @@ class Response {
 		} else {
 			//Set the response status as warning and override the response
 			$this->status = 2;
-			$this->response = "Invalid $this->responseType response status code specified";
+			$this->message = "Invalid $this->responseType response status code specified";
 		}
 	}
 }
@@ -30,10 +30,10 @@ class Response {
  */
 class ValidationResponse extends Response {
 
-	function __construct($status, $response, $data = "") {
+	function __construct($status, $message, $data = "") {
 		$this->responseType = "Validation";
 		
-		parent::__construct($status, $response, $data);
+		parent::__construct($status, $message, $data);
 	}
 }
 
@@ -42,10 +42,10 @@ class ValidationResponse extends Response {
  */
 class DatabaseResponse extends Response {
 
-	function __construct($status, $response, $data = "") {
+	function __construct($status, $message, $data = "") {
 		$this->responseType = "Database";
 		
-		parent::__construct($status, $response, $data);
+		parent::__construct($status, $message, $data);
 	}
 }
 
@@ -59,10 +59,10 @@ class ApiResponse extends Response {
 		$this->httpCode = $code;
 	}
 
-	function __construct($status, $response, $data = "") {
+	function __construct($status, $message, $data = "") {
 		$this->responseType = "API";
 		
-		parent::__construct($status, $response, $data);
+		parent::__construct($status, $message, $data);
 	}
 	
 	/**

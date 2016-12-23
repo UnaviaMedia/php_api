@@ -4,27 +4,14 @@ require_once(UTILITIES);
 require_once(DATABASE);
 
 class Continent {
-	//TODO: Fix this (they need to be public currently)
-	protected $id;
-	protected $name;
-	
-	public function getId() {
-		return $this->id;
-	}
-	
-	public function getName() {
-		return $this->name;
-	}
-	
-	public function setName($name) {
-		$this->name = $name;
-	}
+	public $id;
+	public $name;
 	
 	function __construct($id, $name) {
 		$this->id = $id;
 		$this->name = $name;
 		
-		return validate();
+		return $this->validate();
 	}
 	
 	//Handle validation
@@ -44,13 +31,13 @@ class Continent {
 			return new ValidationResponse(1, $errors, "");
 		}
 		
-		//TODO: What is "$this"? Is the the object that the function is called on?
+		//TODO: What is "$this"? Is the the object that the function is called on (not static method)?
 		return new ValidationResponse(0, "SUCCESS: Continent created", $this);
 	}
 	
 	
 	//Data Access Layer functionality
-	public static function create($continent) {
+	/*public static function create($continent) {
 		$conn = DB::connect();
 		$sql = sprintf("INSERT INTO continents VALUES (default, '%s');", $continent->getName());
 
@@ -59,9 +46,9 @@ class Continent {
 		}
 
 		return true;
-	}
+	}*/
 
-	public static function read($id) {
+	/*public static function read($id) {
 		$conn = DB::connect();
 		$sql = "SELECT * FROM continents WHERE id=$id LIMIT 1;";
 		$result = $conn->query($sql);
@@ -69,24 +56,30 @@ class Continent {
 		$row = $result->fetch_assoc()[0];
 		$continent = new Continent($row["id"], $row["name"]);
 		return $continent;
-	}
+	}*/
 
 	public static function readAll() {
 		$conn = DB::connect();
 		$sql = "SELECT * FROM continents ORDER BY id;";
-		$result = $conn->query($sql);
+		
+		//Handle query errors
+		if ( !$result = $conn->query($sql) ) {
+			return new DatabaseResponse(1, $conn->error);
+		}
 
 		$continents = array();
 
+		//Create an array of continents
 		while ( $row = $result->fetch_assoc() ) {
 			$continent = new Continent($row["id"], $row["name"]);
 			$continents[] = $continent;
 		}
-
-		return $continents;
+		
+		//Return a database response with the array of continents
+		return new DatabaseResponse(0, "Continents retrieved", $continents);
 	}
 
-	public static function update($continent) {
+	/*public static function update($continent) {
 		$conn = DB::connect();
 		$sql = "UPDATE continents SET name='{$continent->getName()}' WHERE id='{$continent->getId()}';";
 
@@ -95,9 +88,9 @@ class Continent {
 		}
 
 		return true;
-	}
+	}*/
 
-	public static function delete($id) {
+	/*public static function delete($id) {
 		$conn = DB::connect();
 		$sql = "DELETE FROM continents WHERE id='$id';";
 
@@ -106,5 +99,5 @@ class Continent {
 		}
 
 		return true;
-	}
+	}*/
 }
