@@ -1,5 +1,6 @@
 <?php
 require_once("/home/cabox/workspace/constants.php");
+$PAGE_TITLE = "API Docs";
 require_once(FRAGMENT_HEADER);
 ?>
 

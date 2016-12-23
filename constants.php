@@ -12,6 +12,7 @@ define("INCLUDES", HTML_ROOT . "/include");
 define("FRAGMENT_HEADER", INCLUDES . "/header.php");
 define("FRAGMENT_FOOTER", INCLUDES . "/footer.php");
 define("UTILITIES", INCLUDES . "/utilities.php");
+define("RESPONSE_CLASSES", INCLUDES . "/responses.php");
 
 //Static Page Title
 define("PAGE_TITLE", "&ensp;|&ensp;PHP API Test");
@@ -22,6 +23,8 @@ $PAGE_TITLE = "";
 define("MODELS", HTML_ROOT . "/model");
 define("CONTROLLERS", HTML_ROOT . "/controller");
 define("DATABASE", HTML_ROOT . "/database.php");
+
+define("DATABASE_CONSTANTS", HTML_ROOT . "/database_constants.php");
 
 //API Constants
 define("API_PATH", "/home/cabox/workspace/api");

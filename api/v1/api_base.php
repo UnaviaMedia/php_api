@@ -73,7 +73,7 @@ abstract class API {
 	 */
 	public function processAPI() {
 		//Get the api file that corresponds to the requested endpoint
-		$apiFile = API_BASE . "/{$this->version}/api_" . strtolower($this->endpoint) . ".php";
+		$apiFile = API_PATH . "/{$this->version}/api_" . strtolower($this->endpoint) . ".php";
 
 		//Determine if file exists for the requested endpoint
 		if ( file_exists($apiFile) ) {
