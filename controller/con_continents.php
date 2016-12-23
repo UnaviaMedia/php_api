@@ -3,39 +3,31 @@ require_once("/home/cabox/workspace/constants.php");
 require_once(MODELS . "/Continent.php");
 
 function readContinents() {
-	//Get database response object
+	//Get a list of all continents
 	$result = Continent::readAll();
 	
 	return $result;
 }
 
 function readContinent($id) {
-	//Get database reponse object
+	//Get the specified continent
 	$result = Continent::read($id);
 	
 	return $result;
 }
 
-/*function createContinent($name) {
-	//Create and validate the record
-	$result = new Continent("", $name);
+function createContinent($name) {
+	//Create and validate the continent
+	$continent = new Continent("", $name);
+	$result = $continent->validate();
 
-	if ( $result->status == 0 ) {
-		//Successful creation
-	} else {
-		//Return an error or warning
-		return;
+	if ( $result->status != 0 ) {
+		//Return the ValidationResult object
+		return $result;
 	}
 
-	//Add the record to the database
+	//Add the continent to the database
 	$result = Continent::create($continent);
 
-	//NOTE: Currently not needed as I can just create ApiResponse from DatabaseResponse object
-	if ( $result->status == 0 ) {
-		//Successful insertion
-		return;
-	} else {
-		//Error or warning
-		return;
-	}
-}*/
+	return $result;
+}
