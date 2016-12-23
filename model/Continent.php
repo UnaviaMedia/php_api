@@ -10,8 +10,6 @@ class Continent {
 	function __construct($id, $name) {
 		$this->id = $id;
 		$this->name = $name;
-		
-		return $this->validate();
 	}
 	
 	//Handle validation
@@ -19,34 +17,39 @@ class Continent {
 		$errors = array();
 		
 		//Validation
-		if ( strlen($this->name) < 2 ) {
-			$errors[] = new ValidationError("name", "Name must be greater than 2 characters");
+		if ( strlen($this->name) == 0 ) {
+			$errors[] = new ValidationError("name", "Name is required");
+		}
+		else if ( strlen($this->name) < 3 ) {
+			$errors[] = new ValidationError("name", "Name must be greater than 3 characters");
 		}
 		
 		//More validation...
 		
 		//Handle any validation errors
 		if ( count($errors) > 0 ) {
-			//TODO: Return any data???
-			return new ValidationResponse(1, $errors, "");
+			return new ValidationResponse(1, "Continent is invalid", $errors);
 		}
 		
-		//TODO: What is "$this"? Is the the object that the function is called on (not static method)?
+		//Return the validated continent
 		return new ValidationResponse(0, "SUCCESS: Continent created", $this);
 	}
 	
 	
 	//Data Access Layer functionality
-	/*public static function create($continent) {
+	public static function create($continent) {
 		$conn = DB::connect();
-		$sql = sprintf("INSERT INTO continents VALUES (default, '%s');", $continent->getName());
+		$sql = sprintf("INSERT INTO continents VALUES (default, '%s');", $continent->name);
 
-		if ( $conn->query($sql) != true ) {
-			return $conn->error;
+		//Handle query errors
+		//	TODO: Add duplicate/existing record warning (or handle this in controller)
+		if ( $conn->query($sql) != true || $conn->affected_rows == 0) {
+			return new DatabaseResponse(1, "Adding continent failed ('$continent->name')", $conn->error);
 		}
 
-		return true;
-	}*/
+		//Return database response with the created continent
+		return new DatabaseResponse(0, "Added continent ('$continent->name')", $continent);
+	}
 
 	public static function read($id) {
 		$conn = DB::connect();

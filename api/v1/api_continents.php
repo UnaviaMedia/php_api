@@ -24,10 +24,11 @@ switch($this->method) {
 		}
 		break;
 	case "POST":
-		/*$name = $_GET["name"];
-		$continent = new Continent("", $name);
-		$data = createContinent($continent);*/
-		break;
+		//Get the continent parameters
+		$name = isset($_POST["name"]) ? $_POST["name"] : "";
+		//Create the continent
+		$result = createContinent($name);
+		return new ApiResponse($result->status, $result->message, $result->data);
 	case "PUT":
 		/*$id = $_POST["id"];
 		$name = $_POST["name"];
