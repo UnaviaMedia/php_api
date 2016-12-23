@@ -54,7 +54,9 @@ function updateContinent($id, $name) {
 	
 	//Return the ValidationResponse object
 	if ( $result->status != 0 ) {
-		return new ValidationResponse(1, "Updated continent is not valid", $result->data);
+		//Update validation message
+		$result->message = "Updated continent is not valid";
+		return $result;
 	}
 	
 	//Update the continent in the database
