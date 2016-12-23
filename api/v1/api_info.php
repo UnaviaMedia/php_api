@@ -6,7 +6,6 @@ $status = 1;
 $response = "API Error";
 $data = "";
 
-//Perform the requested action based on the HTTP request type
 switch($this->method) {
 	case "GET":
 		$status = 0;
