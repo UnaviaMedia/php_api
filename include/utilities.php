@@ -1,6 +1,9 @@
 <?php
 require_once("/home/cabox/workspace/constants.php");
 
+/**
+ * @brief	Base class for different response types that handles the status and response data
+ */
 class Response {
 	public $responseType;
 	public $status;
@@ -22,6 +25,9 @@ class Response {
 	}
 }
 
+/**
+ * @brief	Class to handle validation response status
+ */
 class ValidationResponse extends Response {
 
 	function __construct($status, $response, $data = "") {
@@ -31,6 +37,9 @@ class ValidationResponse extends Response {
 	}
 }
 
+/**
+ * @brief	Class to handle database response status and data
+ */
 class DatabaseResponse extends Response {
 
 	function __construct($status, $response, $data = "") {
@@ -40,8 +49,12 @@ class DatabaseResponse extends Response {
 	}
 }
 
+/**
+ * @brief	Class to handle API response status and data
+ */
 class ApiResponse extends Response {
-
+	
+	//Set the HTTP code for the API response (by default empty)
 	public function setHttpCode($code) {
 		$this->httpCode = $code;
 	}
@@ -52,6 +65,9 @@ class ApiResponse extends Response {
 		parent::__construct($status, $response, $data);
 	}
 	
+	/**
+	 * @brief	Set the HTTP/1.1 response header and status code
+	 */
 	public function setResponseHeader() {
 		$statusCode = "";
 		
@@ -77,6 +93,11 @@ class ApiResponse extends Response {
 		header("HTTP/1.1 " . $statusCode . " " . $this->requestStatus($statusCode));
 	}
 	
+	/**
+	 * @brief	Get the HTTP status description that corresponds with the HTTP code
+	 * @param	$code	HTTP status code to retrieve description for
+	 * @return	HTTP status code description
+	 */
 	private function requestStatus($code) {
 		$status = array(  
 			200 => 'OK',
@@ -90,6 +111,9 @@ class ApiResponse extends Response {
 	}
 }
 
+/**
+ * @brief	Class to handle model validation errors
+ */
 class ValidationError {
 	public $fieldName;
 	public $message;
@@ -100,6 +124,11 @@ class ValidationError {
 	}
 }
 
+/**
+ * @brief	Whether a value is a positive integer
+ * @param	$value	Integer to check
+ * @return	Whether the value is a positive integer
+ */
 function isPositiveInt($value) {
 	if ( is_numeric($value) && ((string)(int)$value === (string)$value) && (int)$value >= 0 ) {
 		return true;

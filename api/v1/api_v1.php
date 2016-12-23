@@ -1,7 +1,10 @@
 <?php
 require_once("/home/cabox/workspace/constants.php");
-require_once(API_BASE . "/v1/api_base.php");
+require_once(API_PATH . "/v1/api_base.php");
 
+/**
+ * @brief	Class for API version 1 that handles API authentication
+ */
 class API_V1 extends API {
 	//protected $User;
 
