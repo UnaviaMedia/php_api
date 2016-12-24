@@ -15,5 +15,6 @@ try {
 	$route->call();
 } catch(Exception $e) {
 	//TODO: Add exception handling
-	echo "Top Exception - Need to handle this";
+	header("Location: /Home/error.php", true, 500);
+	die();
 }
