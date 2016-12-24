@@ -9,7 +9,6 @@
     <script src="https://cdn.jsdelivr.net/foundation/6.2.4/foundation.min.js"></script>
 </head>
 <body>
-	<img src="/api_icon.ico" />
 	<header>
 		<div class="row">
 			<div class="column small-12 text-center">

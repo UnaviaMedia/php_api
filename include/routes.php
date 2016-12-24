@@ -28,6 +28,7 @@ class Route {
 		if ( array_key_exists(0, $this->args) && !is_numeric($this->args[0]) ) {
 			$this->action = array_shift($this->args);
 		}
+		
 		//DEBUG: Route information
 		//print_r($this);
 	}
