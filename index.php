@@ -6,22 +6,18 @@ require_once("/home/cabox/workspace/constants.php");
 print_r($_SERVER["REQUEST_URI"]);
 echo "</pre>";*/
 
-//Get the requested controller and action
-//	TODO: Add advanced functionality for additional arguments
-/*if ( isset($_GET["controller"]) && isset($_GET["action"]) ) {
-	$controller = $_GET("controller");
-	$action = $_GET("controller");
-} else {
-	$controller = "pages";
-	$action = "home";
-}*/
-
 require_once(ROUTES);
 
 try {
 	//Create a new route and call it
 	//TODO: Add request variable validation (if empty, redirect to home)
-	$route = new Route($_REQUEST["request"]);
+	if ( !isset($_REQUEST["request"]) ) {
+		$request = "/";
+	} else {
+		$request = $_REQUEST["request"];
+	}
+	
+	$route = new Route($request);
 	$route->call();
 } catch(Exception $e) {
 	//TODO: Add exception handling
