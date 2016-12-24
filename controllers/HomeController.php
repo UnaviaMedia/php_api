@@ -3,22 +3,19 @@ require_once("/home/cabox/workspace/constants.php");
 
 class HomeController {
 	public function index() {
-		$testVar = "Reached";
-		
-		//Get the view
+		//Get the index page
 		require_once(VIEWS . "/Home/index.php");
 	}
 	
 	//About page
 	public function about() {
-		$aboutVar = "Reached About";
-		
-		//Get the view
+		//Get the about page
 		require_once(VIEWS . "/Home/about.php");
 	}
 	
 	//Error page
-	public function error() {		
+	public function error() {
+		//Get the error page
 		require_once(VIEWS . "/Home/error.php");
 	}
 }
