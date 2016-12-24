@@ -1,42 +1,29 @@
 <?php
 require_once("/home/cabox/workspace/constants.php");
-$PAGE_TITLE = "API Docs";
-require_once(FRAGMENT_HEADER);
-?>
 
-<div class="row">
-    <div class="column small-12 medium-6">
-        <h2 class="text-center">Request Types</h2>
-        <ul>
-            <li>POST<br />
-                <small>Create</small>
-            </li>
-            <li>GET<br />
-                <small>Read</small>
-            </li>
-            <li>PUT<br />
-                <small>Update</small>
-            </li>
-            <li>DELETE<br />
-                <small>Delete</small>
-            </li>
-        </ul>
-    </div>
-    <div class="column small-12 medium-6">
-        <h2 class="text-center">Use Cases</h2>
-        <dl>
-            <dt>Retrieve a continent</dt>
-            <dd><pre>GET - /api/v1/continents/23</pre></dd>
-            <dt>Retrieve all continents</dt>
-            <dd><pre>GET - /api/v1/continents/list</pre></dd>
-            <dt>Add a new continent</dt>
-            <dd><pre>POST - /api/v1/continents { name: "test" }</pre></dd>
-            <dt>Update a continent</dt>
-            <dd><pre>PUT - /api/v1/continents { name: "another" }</pre></dd>
-            <dt>Remove a continent</dt>
-            <dd><pre>DELETE - /api/v1/continents/23 { name: test }</pre></dd>
-        </dl>
-    </div>
-</div>
+/*echo "<pre>";
+//DEBUG: Server Request URI
+print_r($_SERVER["REQUEST_URI"]);
+echo "</pre>";*/
 
-<?php require_once(FRAGMENT_FOOTER); ?>
+//Get the requested controller and action
+//	TODO: Add advanced functionality for additional arguments
+/*if ( isset($_GET["controller"]) && isset($_GET["action"]) ) {
+	$controller = $_GET("controller");
+	$action = $_GET("controller");
+} else {
+	$controller = "pages";
+	$action = "home";
+}*/
+
+require_once(ROUTES);
+
+try {
+	//Create a new route and call it
+	//TODO: Add request variable validation (if empty, redirect to home)
+	$route = new Route($_REQUEST["request"]);
+	$route->call();
+} catch(Exception $e) {
+	//TODO: Add exception handling
+	echo "Top Exception - Need to handle this";
+}
