@@ -1,11 +1,15 @@
-RewriteEngine on
+<IfModule mod_rewrite.c>
+    Options +FollowSymlinks
+    RewriteEngine on
+    #RewriteBase /
 
-# Redirect API help
-RewriteRule ^api/help/?$ /api/help.php [NC]
+    # Don't rewrite if request matches file or directory
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
 
-# Don't rewrite if request matches file or directory
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
+    # Rewrite API requests (append capture group, ignore case, end rewrites)
+    RewriteRule api/v1/(.*)$ api/v1/api.php?request=$1 [QSA,NC,L]
 
-# Rewrite API requests (append captures groups, ignore case, end rewrites)
-RewriteRule api/v1/(.*)$ api/v1/api.php?request=$1 [QSA,NC,L]
+    # Rewrite page actions (append capture group, ignore case, end rewrites)
+    RewriteRule ^(.*)$ index.php?request=$1 [QSA,NC,L]
+</IfModule>
