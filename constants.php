@@ -9,6 +9,7 @@ define("HTML_ROOT", "/home/cabox/workspace");
 define("INCLUDES", HTML_ROOT . "/include");
 define("FRAGMENTS", HTML_ROOT . "/fragments");
 define("STYLES", "/styles");
+define("IMAGES", "/images");
 
 //Common fragments
 define("FRAGMENT_HEADER", FRAGMENTS . "/header.php");
