@@ -8,6 +8,7 @@ ini_set('display_errors', 'On');
 define("HTML_ROOT", "/home/cabox/workspace");
 define("INCLUDES", HTML_ROOT . "/include");
 define("FRAGMENTS", HTML_ROOT . "/fragments");
+define("STYLES", "/styles");
 
 //Common fragments
 define("FRAGMENT_HEADER", FRAGMENTS . "/header.php");
