@@ -26,4 +26,7 @@ curl GET http:[SEVER_IP]/api/[VERSION]/info
 curl GET http://127.0.0.1/api/v1/info
 ```
 
+## Recommendations
+- Disable `MultiViews` if using Apache (this can cause 404 issues with visiting `/index` (uncapitalized))
+
 _Disclaimer: This project is intended for learning purposes only and should not be thought of otherwise. I recognize that there are inevitable security failures, many of which I have no desire to fix for the purposes of this project._
