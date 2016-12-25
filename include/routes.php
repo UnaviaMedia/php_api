@@ -28,9 +28,6 @@ class Route {
 		if ( array_key_exists(0, $this->args) && !is_numeric($this->args[0]) ) {
 			$this->action = strtolower(array_shift($this->args));
 		}
-		
-		//DEBUG: Route information
-		//print_r($this);
 	}
 	
 	//Determine whether requested controller exists
@@ -64,7 +61,7 @@ class Route {
 	
 	//Perform the route actions
 	public function call() {
-		//DEBUG: Display controller and action		
+		//DEBUG: Display controller and action
 		//echo "<pre>C => $this->controller\nA => $this->action\n</pre>";
 		
 		//Display the default page if no controller (and consequently no action) was specified
@@ -82,11 +79,11 @@ class Route {
 				}
 				//If no controller action was specified display the controller index page
 				else {
-					//Controller contains index method
+					//Display controller index page if it exists
 					if ( Route::controllerActionExists($this->controller, "index") ) {
 						$this->action = "index";
 					}
-					//Otherwise (no specified action in home controller)
+					//If there is no index page for the controller display an error page
 					else {
 						$this->controller = "home";
 						$this->action = "error";
