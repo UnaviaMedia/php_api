@@ -4,7 +4,7 @@ require_once("/home/cabox/workspace/constants.php");
 class Route {
 	public static $VALID_ROUTES = array(
 		"home" => array("index", "about", "error"),
-		"continents" => array("list", "details", "create", "delete")
+		//"continents" => array("index", "details", "create", "delete")
 	);
 	
 	//The HTTP method this request was made in, either GET, POST, PUT or DELETE
@@ -22,11 +22,11 @@ class Route {
 		//Get the request arguments
 		$this->args = explode('/', rtrim($request, '/'));
 		//Get the controller from the request
-		$this->controller = array_shift($this->args);
+		$this->controller = strtolower(array_shift($this->args));
 		//Get the requested controller action if one exists
 		//TODO: Possibly set action equal to controller if no action is specified???
 		if ( array_key_exists(0, $this->args) && !is_numeric($this->args[0]) ) {
-			$this->action = array_shift($this->args);
+			$this->action = strtolower(array_shift($this->args));
 		}
 		
 		//DEBUG: Route information
@@ -64,45 +64,50 @@ class Route {
 	
 	//Perform the route actions
 	public function call() {
-		//Check controller and action
-		if ( Route::controllerActionExists($this->controller, $this->action) ) {
-			//Actions if both controller and action are found (typical path)
-			//DEBUG: Routing logic path
-			//echo "Routing Logic Path => 1";
+		//DEBUG: Display controller and action		
+		//echo "<pre>C => $this->controller\nA => $this->action\n</pre>";
+		
+		//Display the default page if no controller (and consequently no action) was specified
+		if ( $this->controller != "" ) {
+			//Verify that the requested controller exists
+			//	If not, it could be that an action was requested from the default controller ("/About" looks nicer than "/Home/About")
+			if ( Route::controllerExists($this->controller) ) {
+				//Verify that a controller action was requested
+				if ( $this->action != "" ) {
+					//Display an error page if an invalid action was requested
+					if ( !Route::controllerActionExists($this->controller, $this->action) ) {
+						$this->controller = "home";
+						$this->action = "error";
+					}
+				}
+				//If no controller action was specified display the controller index page
+				else {
+					//Controller contains index method
+					if ( Route::controllerActionExists($this->controller, "index") ) {
+						$this->action = "index";
+					}
+					//Otherwise (no specified action in home controller)
+					else {
+						$this->controller = "home";
+						$this->action = "error";
+					}
+				}
+			}
+			//Check if default controller has this action
+			else if ( Route::controllerActionExists("home", $this->controller) ) {
+				$this->action = $this->controller;
+				$this->controller = "home";
+			}
+			//Display an error page if the requested controller does not exist
+			else {
+				$this->controller = "home";
+				$this->action = "error";
+			}
 		}
-		//Check controller and index
-		else if ( Route::controllerActionExists($this->controller, "index") ) {
-			//Assign default controller action if no action was requested
-			$this->action = "index";
-			//DEBUG: Routing logic path
-			//echo "Routing Logic Path => 2";
-		}
-		//Check home and action
-		else if ( Route::controllerActionExists("home", $this->controller) ) {
-			//Set the action to the controller if no action is found as default controller will be used
-			//TODO: Change logic to group requested controller with requested action checks and then default controller with action checks
-			$this->action = $this->controller;
-			//Assign default controller if no controller was requested and default controller contains requested action
-			$this->controller = "home";
-			//DEBUG: Routing logic path
-			//echo "Routing Logic Path => 3";
-		}
-		//Check home controller and index page
-		//TODO: Remove this and replace with error page (they likely don't want to go to home if they just mistyped)
-		else if ( Route::controllerActionExists("home", "index") ) {
-			//Assign default controller and action if none are specified
-			$this->controller = "home";
-			$this->action = "index";
-			//DEBUG: Routing logic path
-			//echo "Routing Logic Path => 4";
-		}
-		//Display error when no controller and action are requested and the home controller/action don't exist (shouldn't happen)
+		//Display the default page if no controller (and consequently no action) was specified
 		else {
-			//TODO: Set 404 Page Not Found header
 			$this->controller = "home";
-			$this->action = "error";
-			//DEBUG: Routing logic path
-			//echo "Routing Logic Path => 5";
+			$this->action = "index";
 		}
 		
 		//Require the matching controller file
