@@ -9,18 +9,19 @@
 	- Controller with no action (default)
 		- Uses requested controller and default action
 	- `/Home/Index`
-- `/Index`
+- `/About`
 	- Invalid controller but is valid action of default controller
 		- Uses default controller and requested action
-	- `/Home/Index`
-- `/Home/Index`
+	- `/Home/About`
+- `/Home/About`
 	- Controller with action
 		- Uses requested controller and requested action
-	- `/Home/Index`
+	- `/Home/About`
 
 **Invalid Routes**
 - `/Random`
 	- Invalid controller with no action
+	- Invalid action for default controller
 		- Routes to error page
 	- `/Home/Error`
 - `/Random/Action`
