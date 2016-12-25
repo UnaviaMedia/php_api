@@ -1,5 +1,6 @@
 <?php
 require_once("/home/cabox/workspace/constants.php");
+require_once(RESPONSE_CLASSES);
 
 class Route {
 	public static $VALID_ROUTES = array(
@@ -59,11 +60,7 @@ class Route {
 		return false;
 	}
 	
-	//Perform the route actions
-	public function call() {
-		//DEBUG: Display controller and action
-		//echo "<pre>C => $this->controller\nA => $this->action\n</pre>";
-		
+	public function validate() {
 		//Display the default page if no controller (and consequently no action) was specified
 		if ( $this->controller != "" ) {
 			//Verify that the requested controller exists
@@ -72,40 +69,51 @@ class Route {
 				//Verify that a controller action was requested
 				if ( $this->action != "" ) {
 					//Display an error page if an invalid action was requested
-					if ( !Route::controllerActionExists($this->controller, $this->action) ) {
-						$this->controller = "home";
-						$this->action = "error";
+					if ( Route::controllerActionExists($this->controller, $this->action) ) {
+						return new RouteResponse(0, "Using controller '{$this->controller}' for action '{$this->action}'", array("controller" => $this->controller, "action" => $this->action));
+					}
+					else {
+						return new RouteResponse(1, "No action '{$this->action}' in controller '{$this->controller}'", array("controller" => "home", "action" => "error"));
 					}
 				}
 				//If no controller action was specified display the controller index page
 				else {
 					//Display controller index page if it exists
 					if ( Route::controllerActionExists($this->controller, "index") ) {
-						$this->action = "index";
+						return new RouteResponse(0, "Using controller '{$this->controller}' for action 'index'", array("controller" => $this->controller, "action" => "index"));
 					}
 					//If there is no index page for the controller display an error page
 					else {
-						$this->controller = "home";
-						$this->action = "error";
+						return new RouteResponse(1, "No action 'index' in controller '{$this->controller}'", array("controller" => "home", "action" => "error"));
 					}
 				}
 			}
 			//Check if default controller has this action
 			else if ( Route::controllerActionExists("home", $this->controller) ) {
-				$this->action = $this->controller;
-				$this->controller = "home";
+				return new RouteResponse(0, "Using controller 'home' for action '{$this->controller}'", array("controller" => "home", "action" => $this->controller));
 			}
 			//Display an error page if the requested controller does not exist
 			else {
-				$this->controller = "home";
-				$this->action = "error";
+				return new RouteResponse(1, "No controller '{$this->controller}'", array("controller" => "home", "action" => "error"));
 			}
 		}
 		//Display the default page if no controller (and consequently no action) was specified
 		else {
-			$this->controller = "home";
-			$this->action = "index";
+			return new RouteResponse(0, "Using controller 'home' and action 'index'", array("controller" => "home", "action" => "index"));
 		}
+	}
+	
+	//Perform the route actions
+	public function call() {
+		//DEBUG: Display controller and action
+		//echo "<pre>C => $this->controller\nA => $this->action\n</pre>";
+		$result = $this->validate($this->controller, $this->action);
+		
+		//Get controller and action after validation
+		$this->controller = $result->data["controller"];
+		$this->action = $result->data["action"];
+		
+		//TODO: Handle routing validation with $result->status
 		
 		//Require the matching controller file
 		require_once(CONTROLLERS . "/" . ucfirst($this->controller) . "Controller.php");
