@@ -7,10 +7,15 @@ ini_set('display_errors', 'On');
 //Common PHP directories or paths
 define("HTML_ROOT", "/home/cabox/workspace");
 define("INCLUDES", HTML_ROOT . "/include");
+define("FRAGMENTS", HTML_ROOT . "/fragments");
+define("STYLES", "/styles");
+define("IMAGES", "/images");
 
 //Common fragments
-define("FRAGMENT_HEADER", INCLUDES . "/header.php");
-define("FRAGMENT_FOOTER", INCLUDES . "/footer.php");
+define("FRAGMENT_HEADER", FRAGMENTS . "/header.php");
+define("FRAGMENT_FOOTER", FRAGMENTS . "/footer.php");
+
+//Common includes
 define("UTILITIES", INCLUDES . "/utilities.php");
 define("RESPONSE_CLASSES", INCLUDES . "/responses.php");
 
@@ -20,11 +25,14 @@ define("PAGE_TITLE", "&ensp;|&ensp;PHP API Test");
 $PAGE_TITLE = "";
 
 //MVC Constants
-define("MODELS", HTML_ROOT . "/model");
-define("CONTROLLERS", HTML_ROOT . "/controller");
-define("DATABASE", HTML_ROOT . "/database.php");
+define("ROUTES", INCLUDES . "/routes.php");
+define("CONTROLLERS", HTML_ROOT . "/controllers");
+define("MODELS", HTML_ROOT . "/models");
+define("VIEWS", HTML_ROOT . "/views");
 
+//Database files
 define("DATABASE_CONSTANTS", HTML_ROOT . "/database_constants.php");
+define("DATABASE", HTML_ROOT . "/database.php");
 
 //API Constants
 define("API_PATH", "/home/cabox/workspace/api");
