@@ -60,46 +60,42 @@ class Route {
 		return false;
 	}
 	
+	//Validate a route and return a response with the controller and action
 	public function validate() {
-		//Display the default page if no controller (and consequently no action) was specified
-		if ( $this->controller != "" ) {
-			//Verify that the requested controller exists
-			//	If not, it could be that an action was requested from the default controller ("/About" looks nicer than "/Home/About")
-			if ( Route::controllerExists($this->controller) ) {
-				//Verify that a controller action was requested
-				if ( $this->action != "" ) {
-					//Display an error page if an invalid action was requested
-					if ( Route::controllerActionExists($this->controller, $this->action) ) {
-						return new RouteResponse(0, "Using controller '{$this->controller}' for action '{$this->action}'", array("controller" => $this->controller, "action" => $this->action));
-					}
-					else {
-						return new RouteResponse(1, "No action '{$this->action}' in controller '{$this->controller}'", array("controller" => "home", "action" => "error"));
-					}
-				}
-				//If no controller action was specified display the controller index page
-				else {
-					//Display controller index page if it exists
-					if ( Route::controllerActionExists($this->controller, "index") ) {
-						return new RouteResponse(0, "Using controller '{$this->controller}' for action 'index'", array("controller" => $this->controller, "action" => "index"));
-					}
-					//If there is no index page for the controller display an error page
-					else {
-						return new RouteResponse(1, "No action 'index' in controller '{$this->controller}'", array("controller" => "home", "action" => "error"));
-					}
-				}
-			}
-			//Check if default controller has this action
-			else if ( Route::controllerActionExists("home", $this->controller) ) {
-				return new RouteResponse(0, "Using controller 'home' for action '{$this->controller}'", array("controller" => "home", "action" => $this->controller));
-			}
-			//Display an error page if the requested controller does not exist
-			else {
-				return new RouteResponse(1, "No controller '{$this->controller}'", array("controller" => "home", "action" => "error"));
-			}
-		}
-		//Display the default page if no controller (and consequently no action) was specified
-		else {
+		//Return the default controller/action if no controller (and consequently no action) was specified
+		if ( $this->controller == "" ) {
 			return new RouteResponse(0, "Using controller 'home' and action 'index'", array("controller" => "home", "action" => "index"));
+		}
+		
+		//Verify that the requested controller exists
+		//	If not, it could be that an action was requested from the default controller ("/About" looks nicer than "/Home/About")
+		if ( Route::controllerExists($this->controller) ) {
+			//If no controller action was specified check for and return the controller index action
+			if ( $this->action == "" ) {
+				//Return the controller index action if it exists
+				if ( Route::controllerActionExists($this->controller, "index") ) {
+					return new RouteResponse(0, "Using controller '{$this->controller}' for action 'index'", array("controller" => $this->controller, "action" => "index"));
+				}
+
+				//Return an error if there is no index page for the controller and action was empty
+				return new RouteResponse(1, "No action 'index' in controller '{$this->controller}'", array("controller" => "home", "action" => "error"));
+			}
+
+			//Return controller and action if they exist (typical path)
+			if ( Route::controllerActionExists($this->controller, $this->action) ) {
+				return new RouteResponse(0, "Using controller '{$this->controller}' for action '{$this->action}'", array("controller" => $this->controller, "action" => $this->action));
+			}
+
+			//Return an error if an invalid action was requested but the controller exists
+			return new RouteResponse(1, "No action '{$this->action}' in controller '{$this->controller}'", array("controller" => "home", "action" => "error"));
+		}
+		//Return default controller if action exists there and controller wasn't specified ("/About" vs "/Home/About")
+		else if ( Route::controllerActionExists("home", $this->controller) && $this->action == "" ) {
+			return new RouteResponse(0, "Using controller 'home' for action '{$this->controller}'", array("controller" => "home", "action" => $this->controller));
+		}
+		//Return an error if the requested controller does not exist
+		else {
+			return new RouteResponse(1, "No controller '{$this->controller}'", array("controller" => "home", "action" => "error"));
 		}
 	}
 	
