@@ -1,7 +1,7 @@
 <?php
 require_once("/home/cabox/workspace/constants.php");
 require_once(UTILITIES);
-require_once(CONTROLLERS . "/con_continents.php");
+require_once(CONTROLLERS . "/func_continents.php");
 
 $status = 1;
 $message = "API Error - continents";

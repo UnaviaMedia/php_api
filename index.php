@@ -12,7 +12,7 @@ try {
 	
 	//Create a new route and call it
 	$route = new Route($request);
-	$route->call();
+	$route->processRoute();
 } catch(Exception $e) {
 	//TODO: Add exception handling
 	header("Location: /Home/error.php", true, 500);

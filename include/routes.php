@@ -100,7 +100,7 @@ class Route {
 	}
 	
 	//Perform the route actions
-	public function call() {
+	public function processRoute() {
 		//DEBUG: Display controller and action
 		//echo "<pre>C => $this->controller\nA => $this->action\n</pre>";
 		$result = $this->validate($this->controller, $this->action);
