@@ -9,12 +9,12 @@
     <script src="//cdn.jsdelivr.net/foundation/6.2.4/foundation.min.js"></script>
 </head>
 <body>
-	<header>
+	<header class="page__header">
 		<div class="row">
 			<div class="column small-12 text-center">
 				<h1>PHP API</h1>
 			</div>
 		</div>
 	</header>
-	<section class="body">
+	<section class="page">
 		

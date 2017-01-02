@@ -1,5 +1,5 @@
 	</section><!-- body container -->
-    <footer>
+    <footer class="page__footer">
         <div class="row">
             <div class="column small-12 text-center">
                 UnaviaMedia&ensp;|&ensp;&copy; 2016

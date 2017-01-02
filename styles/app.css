@@ -1,5 +1,5 @@
 /* Header */
-header {
+header.page__header {
 	padding: 0.5rem;
 	color: white;
 	background-color: #2077d3;
@@ -9,10 +9,32 @@ header h1 {
 	margin: 0;
 }
 
+/* Body */
+.page { margin: 1.5rem auto; }
+
+/* Description lists */
+dl dt { margin-bottom: 0.25rem; }
+
+dl dd { margin-bottom: 0.5rem; }
+
+/* File tree */
+.file-tree {
+	margin: 0;
+	padding: 0.75rem 1rem;
+	border: 1px solid lightgrey;
+	background-color: #ececec;	
+}
+
 
 /* Footer */
-footer {
+footer.page__footer {
 	padding: 1rem;
 	color: white;
 	background-color: #2077d3;
+}
+
+
+@media screen and (min-width: 40em) {
+	h2 { font-size: 2.25rem; }
+	h3 { font-size: 1.5rem; }
 }

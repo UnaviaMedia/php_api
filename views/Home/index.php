@@ -4,6 +4,13 @@ require_once(FRAGMENT_HEADER);
 ?>
 
 <div class="row">
+    <div class="column small-12 medium-8 medium-centered">
+        <h2 class="text-center">Description</h2>
+        <p>This project was started simply because I wanted a better understanding of both APIs in general as well as REST oriented architecture. I've also used it to become more familiar with the MVC architectural pattern for the user interface.</p>
+    </div>
+</div>
+
+<div class="row">
     <div class="column small-12 medium-6">
         <h2 class="text-center">Request Types</h2>
         <ul>
