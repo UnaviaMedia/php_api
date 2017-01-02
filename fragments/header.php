@@ -11,10 +11,19 @@
 <body>
 	<header class="page__header">
 		<div class="row">
-			<div class="column small-12 text-center">
-				<h1>PHP API</h1>
+			<div class="column medium-8 medium-centered">
+				<h1><a href="/">PHP API &amp; MVC</a></h1>
 			</div>
 		</div>
 	</header>
+	<nav class="page__nav">
+		<div class="row">
+			<div class="column medium-8 medium-centered">
+				<nav class="text-center medium-text-right">
+					<a href="/Home">Home</a>
+					<a href="/About">About</a>
+				</nav>
+			</div>
+		</div>
+	</nav>
 	<section class="page">
-		

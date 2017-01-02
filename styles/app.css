@@ -9,6 +9,19 @@ header h1 {
 	margin: 0;
 }
 
+header.page__header a, .page__nav a {
+	color: white;
+}
+
+.page__nav {
+	padding: 0.5rem;
+	background-color: rgb(150, 190, 255);
+}
+
+.page__nav a:not(:last-of-type) {
+	margin-right: 1rem;
+}
+
 /* Body */
 .page { margin: 1.5rem auto; }
 
