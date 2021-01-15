@@ -1,6 +1,8 @@
 # PHP API Example
 Simple example of a PHP API
 
+> **NOTE:** This project represents my first forays into semi-advanced web development topics. While I may shudder when reflecting on using PHP, now preferring Node or Python Django, it still holds a place in my development history (_albeit thankfully in the past_).
+
 **NOTE:** As of now this project has fulfilled its goal of helping me better understand API development and REST architecture. I have moved on to improving my Javascript knowledge and learning related technologies (Node, MongoDB, React, etc). I may come back to this to implement authentication in PHP if time permits, but for now I am considering the project complete-ish.
 
 ## Description
